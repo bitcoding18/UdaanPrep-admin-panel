@@ -92,7 +92,7 @@ const Header = () => {
                   anchorOrigin={{ horizontal: "right", vertical: "top" }}
                 >
                   <div className="head ps-3 pb-2">
-                    <h4>Orders (12)</h4>
+                    <h4>Notifications (12)</h4>
                   </div>
 
                   <Divider className="mb-1" />
