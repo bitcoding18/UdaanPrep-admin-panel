@@ -459,11 +459,12 @@ header button.rounded-circle:hover svg {
   text-align: left !important;
   justify-content: flex-start;
   color: #fff;
+  text-transform: capitalize !important;
 }
 
 .dashboardBoxWrapper .dashboardBox .col1 h4 {
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .dashboardBoxWrapper .dashboardBox .col1 span {
@@ -522,5 +523,54 @@ header button.rounded-circle:hover svg {
 .dashboardBoxWrapperRow .box {
   width: 100%;
   height: 100%;
-  background: #ccc;
+}
+
+.dashboardBoxWrapper .dashboardBox .MuiList-root svg {
+  color: #000 !important;
+  font-size: 17px !important;
+  margin-right: 10px !important;
+}
+
+.dropdown_menu .MuiButtonBase-root svg {
+  margin-right: 10px !important;
+}
+
+.graphBox {
+  background-image: linear-gradient(#1a50b5, #2a6ff7);
+  border-radius: 10px;
+  padding: 25px;
+}
+
+.graphBox .toggleIcon svg {
+  color: #fff !important;
+  font-size: 20px !important;
+  opacity: 1 !important;
+}
+
+.graphBox h4 {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.graphBox p {
+  font-size: 13px;
+  color:#fff;
+  opacity: 0.7;
+}
+
+.card {
+  margin: 20px 0px;
+}
+
+.card .hd {
+  font-size: 18px;
+  font-weight: bold;
+  color: #403e57;
+}
+
+.cardFilters .col h4 {
+  font-size: 14px;
+  font-weight: 800;
+  text-transform: capitalize;
+  color: #403e57;
 }

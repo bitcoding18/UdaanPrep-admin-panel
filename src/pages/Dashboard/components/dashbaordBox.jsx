@@ -1,17 +1,21 @@
 import Button from "@mui/material/Button";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { HiDotsVertical } from "react-icons/hi";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import TrendingDownIcon from "@mui/icons-material/TrendingDown";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import {IoIosTimer} from "react-icons/io";
+
 const ITEM_HEIGHT = 48;
 const DashboardBox = (props) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -47,11 +51,11 @@ const DashboardBox = (props) => {
       <div className="d-flex align-items-center w-100 bottomEle">
         <h6 className="text-white mb-0 mt-0">Last Month</h6>
         <div className="ms-auto">
-          <Button className="ms-auto toggleIcon">
+          <Button className="ms-auto toggleIcon" onClick={handleClick}>
             <HiDotsVertical />
           </Button>
           <Menu
-            id="long-menu"
+            className="dropdown_menu"
             anchorEl={anchorEl}
             open={open}
             onClose={handleClose}
@@ -67,20 +71,10 @@ const DashboardBox = (props) => {
               },
             }}
           >
-            <MenuItem
-              key={1}
-              selected={'TEst' === "Pyxis"}
-              onClick={handleClose}
-            >
-                Last Day
-            </MenuItem>
-            <MenuItem
-              key={2}
-              selected={'test' === "Pyxis"}
-              onClick={handleClose}
-            >
-                Last Week
-            </MenuItem>
+            <MenuItem onClick={handleClose}><IoIosTimer /> Last Day</MenuItem>
+            <MenuItem onClick={handleClose}><IoIosTimer /> Last Week</MenuItem>
+            <MenuItem onClick={handleClose}><IoIosTimer /> Last Month</MenuItem>
+            <MenuItem onClick={handleClose}><IoIosTimer /> Last Year</MenuItem>
           </Menu>
         </div>
       </div>
