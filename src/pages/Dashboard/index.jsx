@@ -13,6 +13,7 @@ import { Chart } from "react-google-charts";
 import InputLabel from "@mui/material/InputLabel";
 import FormHelperText from "@mui/material/FormHelperText";
 import FormControl from "@mui/material/FormControl";
+import { Select } from "@mui/material";
 // import Select, { SelectChangeEvent } from "@mui/material/Select";
 
 export const data = [
@@ -33,6 +34,7 @@ const ITEM_HEIGHT = 48;
 const Dashboard = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [showBy, setshowBy] = useState("");
+  const [showCategoryBy, setCategoryBy] = useState("");
   const open = Boolean(anchorEl);
 
   const handleClick = (event) => {
@@ -128,21 +130,78 @@ const Dashboard = () => {
           <h3 className="hd">Best Selling Products</h3>
 
           <div className="row cardFilters mt-3">
-            <div className="col">
+            <div className="col-md-3">
               <h4>SHOW BY</h4>
-              {/* <Select
-                value={showBy}
-                displayEmpty
-                inputProps={{ "aria-label": "Without label" }}
-              >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
-              </Select> */}
+              <FormControl size="small" className="w-100">
+                <Select
+                  value={showBy}
+                  onChange={(e) => setshowBy(e.target.value)}
+                  displayEmpty
+                  inputProps={{ "aria-label": "Without label" }}
+                  labelId="demo-simple-select-label"
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  <MenuItem value={10}>Ten</MenuItem>
+                  <MenuItem value={20}>Twenty</MenuItem>
+                  <MenuItem value={30}>Thirty</MenuItem>
+                </Select>
+              </FormControl>
             </div>
+            <div className="col-md-3">
+              <h4>CATEGORY BY</h4>
+              <FormControl size="small" className="w-100">
+                <Select
+                  value={showCategoryBy}
+                  onChange={(e) => setCategoryBy(e.target.value)}
+                  displayEmpty
+                  inputProps={{ "aria-label": "Without label" }}
+                  labelId="demo-simple-select-label"
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  <MenuItem value={10}>Ten</MenuItem>
+                  <MenuItem value={20}>Twenty</MenuItem>
+                  <MenuItem value={30}>Thirty</MenuItem>
+                </Select>
+              </FormControl>
+            </div>
+          </div>
+
+          <div className="table-responsive mt-3">
+            <table className="table table-bordered">
+              <thead className="thead-dark">
+                <tr>
+                  <th>UID</th>
+                  <th>PRODUCT</th>
+                  <th>CATEGORY</th>
+                  <th>BRAND</th>
+                  <th>PRICE</th>
+                  <th>STOCK</th>
+                  <th>RATING</th>
+                  <th>ORDER</th>
+                  <th>SALES</th>
+                  <th>ACTION</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td>#1</td>
+                  <td>Tops and skits set for Female</td>
+                  <td>womans</td>
+                  <td>richman</td>
+                  <td>$21.00</td>
+                  <td>30</td>
+                  <td>4.9 (16)</td>
+                  <td>380</td>
+                  <td>$38k</td>
+                  <td>asd</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

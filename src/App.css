@@ -568,9 +568,21 @@ header button.rounded-circle:hover svg {
   color: #403e57;
 }
 
-.cardFilters .col h4 {
+.cardFilters .col-md-3 h4 {
   font-size: 14px;
   font-weight: 800;
   text-transform: capitalize;
   color: #403e57;
+}
+
+.table .thead-dark th {
+  background-color: #1866ee !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+  font-size: 13px !important;
+}
+
+.table tbody td {
+  font-size: 13px !important;
+  color: #403e57;
+  font-weight: 500;
 }
