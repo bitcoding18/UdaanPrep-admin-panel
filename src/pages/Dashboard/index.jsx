@@ -15,6 +15,9 @@ import FormHelperText from "@mui/material/FormHelperText";
 import FormControl from "@mui/material/FormControl";
 import { Select } from "@mui/material";
 // import Select, { SelectChangeEvent } from "@mui/material/Select";
+import { FaEye } from "react-icons/fa";
+import { FaPencilAlt } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
 
 export const data = [
   ["Year", "Sales", "Expenses"],
@@ -171,7 +174,7 @@ const Dashboard = () => {
           </div>
 
           <div className="table-responsive mt-3">
-            <table className="table table-bordered">
+            <table className="table table-bordered v-align">
               <thead className="thead-dark">
                 <tr>
                   <th>UID</th>
@@ -190,15 +193,49 @@ const Dashboard = () => {
               <tbody>
                 <tr>
                   <td>#1</td>
-                  <td>Tops and skits set for Female</td>
+                  <td>
+                    <div className="d-flex align-items-center productBox">
+                      <div className="imgWrapper">
+                        <div className="img">
+                          <img
+                            src="https://mironcoder-hotash.netlify.app/images/product/01.webp"
+                            className="w-100"
+                          />
+                        </div>
+                      </div>
+                      <div className="info"> </div>
+                      <h6>Tops and skits set for Female...</h6>
+                      <p>
+                        Women's exclusive summer Tops and skirt set for Female
+                        Tops and skirt set
+                      </p>
+                    </div>
+                  </td>
                   <td>womans</td>
                   <td>richman</td>
-                  <td>$21.00</td>
+                  <td>
+                    <div style={{ width: "150p" }}>
+                      <del className="old">$21.00</del>
+                      <span className="new text-danger">$21.00</span>
+                    </div>
+                  </td>
                   <td>30</td>
                   <td>4.9 (16)</td>
                   <td>380</td>
                   <td>$38k</td>
-                  <td>asd</td>
+                  <td>
+                    <div className="actions d-flex align-items-center">
+                      <Button className="secondary" color="secondary">
+                        <FaEye />
+                      </Button>
+                      <Button className="success" color="success">
+                        <FaPencilAlt />
+                      </Button>
+                      <Button className="error" color="error">
+                        <MdDelete />
+                      </Button>
+                    </div>
+                  </td>
                 </tr>
               </tbody>
             </table>
