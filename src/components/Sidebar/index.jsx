@@ -4,12 +4,14 @@ import { MdDashboard, MdMessage } from "react-icons/md";
 import { FaProductHunt } from "react-icons/fa";
 import { IoIosSettings } from "react-icons/io";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { IoMdLogOut } from "react-icons/io";
+import { MyContext } from "../../App";
 
 const Sidebar = () => {
   const [activeTab, setActiveTab] = useState(0);
   const [isToggleSubMenu, setIsToggleSubMenu] = useState(false);
+  const context = useContext(MyContext);
 
   const isOpenSubMenu = (index) => {
     setActiveTab(index);

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../assets/images/transparent_logo.png";
 import Button from "@mui/material/Button";
@@ -18,12 +18,14 @@ import Divider from "@mui/material/Divider";
 import PersonAdd from "@mui/icons-material/PersonAdd";
 import Logout from "@mui/icons-material/Logout";
 import { FaShieldAlt } from "react-icons/fa";
+import { MyContext } from "../../App";
 
 const Header = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [isOpenNotificationDrop, setIsOpenNotificationDrop] = useState(null);
   const openMyAcc = Boolean(anchorEl);
   const openNotifications = Boolean(isOpenNotificationDrop);
+  const context = useContext(MyContext);
 
   const handleOpenMyAccDrop = (event) => {
     setAnchorEl(event.currentTarget);
@@ -54,9 +56,14 @@ const Header = () => {
               </Link>
             </div>
 
-            <div className="col-sm-3 d-flex align-items-center part2 ps-4">
-              <Button className="rounded-circle">
-                <MdMenuOpen />
+            <div className="col-sm-3 d-flex align-items-center part2">
+              <Button
+                className="rounded-circle"
+                onClick={() =>
+                  context.setIsToggleSidebar(!context.isToggleSidebar)
+                }
+              >
+                {context.isToggleSidebar ? <MdOutlineMenu /> : <MdMenuOpen />}
               </Button>
               <SearchBox />
             </div>
@@ -275,56 +282,62 @@ const Header = () => {
                 </Menu>
               </div>
 
-              <div className="myAccWrapper">
-                <Button
-                  className="myAcc d-flex align-items-center"
-                  onClick={handleOpenMyAccDrop}
-                >
-                  <div className="userImg">
-                    <span className="rounded-circle">
-                      <img
-                        src="https://mironcoder-hotash.netlify.app/images/avatar/01.webp"
-                        alt="User"
-                      />
-                    </span>
-                  </div>
+              {context?.isLogin !== true ? (
+                <Link to={"./login"}>
+                  <Button className="btn-blue btn-lg btn-round">Sign In</Button>
+                </Link>
+              ) : (
+                <div className="myAccWrapper">
+                  <Button
+                    className="myAcc d-flex align-items-center"
+                    onClick={handleOpenMyAccDrop}
+                  >
+                    <div className="userImg">
+                      <span className="rounded-circle">
+                        <img
+                          src="https://mironcoder-hotash.netlify.app/images/avatar/01.webp"
+                          alt="User"
+                        />
+                      </span>
+                    </div>
 
-                  <div className="userInfo">
-                    <h4>Rakesh Vanand</h4>
-                    <p className="mb-0">@rakeshv1108</p>
-                  </div>
-                </Button>
+                    <div className="userInfo">
+                      <h4>Rakesh Vanand</h4>
+                      <p className="mb-0">@rakeshv1108</p>
+                    </div>
+                  </Button>
 
-                <Menu
-                  anchorEl={anchorEl}
-                  id="account-menu"
-                  open={openMyAcc}
-                  onClose={handleCloseMyAccDrop}
-                  onClick={handleCloseMyAccDrop}
-                  transformOrigin={{ horizontal: "right", vertical: "top" }}
-                  anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-                >
-                  <Divider />
-                  <MenuItem onClick={handleOpenMyAccDrop}>
-                    <ListItemIcon>
-                      <PersonAdd fontSize="small" />
-                    </ListItemIcon>
-                    My Account
-                  </MenuItem>
-                  <MenuItem onClick={handleOpenMyAccDrop}>
-                    <ListItemIcon>
-                      <FaShieldAlt fontSize="small" />
-                    </ListItemIcon>
-                    Reset Password
-                  </MenuItem>
-                  <MenuItem onClick={handleOpenMyAccDrop}>
-                    <ListItemIcon>
-                      <Logout fontSize="small" />
-                    </ListItemIcon>
-                    Logout
-                  </MenuItem>
-                </Menu>
-              </div>
+                  <Menu
+                    anchorEl={anchorEl}
+                    id="account-menu"
+                    open={openMyAcc}
+                    onClose={handleCloseMyAccDrop}
+                    onClick={handleCloseMyAccDrop}
+                    transformOrigin={{ horizontal: "right", vertical: "top" }}
+                    anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+                  >
+                    <Divider />
+                    <MenuItem onClick={handleOpenMyAccDrop}>
+                      <ListItemIcon>
+                        <PersonAdd fontSize="small" />
+                      </ListItemIcon>
+                      My Account
+                    </MenuItem>
+                    <MenuItem onClick={handleOpenMyAccDrop}>
+                      <ListItemIcon>
+                        <FaShieldAlt fontSize="small" />
+                      </ListItemIcon>
+                      Reset Password
+                    </MenuItem>
+                    <MenuItem onClick={handleOpenMyAccDrop}>
+                      <ListItemIcon>
+                        <Logout fontSize="small" />
+                      </ListItemIcon>
+                      Logout
+                    </MenuItem>
+                  </Menu>
+                </div>
+              )}
             </div>
           </div>
         </div>

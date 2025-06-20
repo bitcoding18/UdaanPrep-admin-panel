@@ -217,7 +217,10 @@ const Dashboard = () => {
                       <td>{product?.brand}</td>
                       <td>
                         <div style={{ width: "50px" }}>
-                          <del className="old">{product?.originalPrice && `$${product?.originalPrice}`}</del>
+                          <del className="old">
+                            {product?.originalPrice &&
+                              `$${product?.originalPrice}`}
+                          </del>
                           <span className="new text-danger">
                             ${product?.price}
                           </span>
@@ -245,7 +248,11 @@ const Dashboard = () => {
                 })}
               </tbody>
             </table>
+
             <div className="d-flex tableFooter">
+              <p>
+                showing <b>12</b> of <b>60</b> results{" "}
+              </p>
               <Pagination
                 count={100}
                 color="primary"

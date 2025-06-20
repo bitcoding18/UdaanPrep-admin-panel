@@ -8,6 +8,7 @@
 body {
   font-family: "Open Sans", sans-serif;
   background: #ebe9e9;
+  overflow-x: hidden;
 }
 
 ::-webkit-scrollbar {
@@ -32,6 +33,20 @@ body {
   color: #fff !important;
   text-transform: capitalize;
   border-radius: 5px !important;
+}
+
+.btn-lg {
+  padding: 5px 25px !important;
+}
+
+.btn-round {
+  border-radius: 30px !important;
+}
+
+.full {
+  max-width: 100% !important;
+  flex: 0 0 100% !important;
+  width: 100% !important;
 }
 
 header {
@@ -76,6 +91,10 @@ header button.rounded-circle svg {
 
 header button.rounded-circle:hover svg {
   color: #0858f7 !important;
+}
+
+header .part2 {
+  padding-left: 70px;
 }
 
 .searchBox {
@@ -229,6 +248,11 @@ header button.rounded-circle:hover svg {
   transition: all 0.3s ease-in-out;
 }
 
+.main .sidebarWrapper.toggle {
+  width: 0%;
+  flex: 0 0 0%;
+}
+
 .main .sidebarWrapper .sidebar {
   width: 20%;
   height: 100vh;
@@ -240,6 +264,11 @@ header button.rounded-circle:hover svg {
   overflow-y: scroll;
   overflow-x: hidden;
   padding-bottom: 40px;
+  transition: all 0.3s ease-in-out;
+}
+
+.main .sidebarWrapper.toggle .sidebar {
+  left: -100%;
 }
 
 .main .sidebarWrapper .sidebar::-webkit-scrollbar {
@@ -437,10 +466,17 @@ header button.rounded-circle:hover svg {
 .main .content {
   width: 80%;
   flex: 0 0 80%;
+  transition: all 0.3s ease-in-out;
+}
+
+.main .content.toggle {
+  width: 100%;
+  flex: 0 0 100%;
 }
 
 .right-content {
   padding: 90px 30px;
+  padding-bottom: 10px;
 }
 
 .dashboardBoxWrapper {
@@ -587,6 +623,10 @@ p {
   color: #403e57;
 }
 
+.table-responsive::-webkit-scrollbar-thumb {
+  background: #ccc !important;
+}
+
 .table .thead-dark th {
   background-color: #1866ee !important;
   border-color: rgba(0, 0, 0, 0.1) !important;
@@ -595,7 +635,7 @@ p {
 }
 
 .table tbody tr.even {
-  background-color: rgba(246,246,246,1) !important;
+  background-color: rgba(246, 246, 246, 1) !important;
 }
 
 .table tbody td {
@@ -683,6 +723,75 @@ table.v-align td .productBox {
   margin-left: auto;
 }
 
+.tableFooter p {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 0px;
+}
+
 .css-1toZaaw-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected {
   background-color: #0858f7 !important;
+}
+
+.loginSection {
+  width: 100%;
+  height: 100vh;
+  padding: 35px 25px;
+  background: #fff;
+  position: relative;
+}
+
+.loginPatern {
+  width: 100%;
+  height: 100%;
+  opacity: 0.08;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 99;
+  pointer-events: none;
+}
+
+.loginSection .loginBox {
+  width: 400px;
+  height: auto;
+  margin: auto;
+}
+
+.loginSection .loginBox .wrapper {
+  width: 100%;
+  height: 300px;
+  background: #f0f0f0;
+  position: relative;
+}
+
+.loginSection .loginBox .wrapper .form-control {
+  background: #fff !important;
+  box-shadow: none !important;
+  outline: none !important;
+  border-radius: 5px !important;
+  font-size: 14px;
+  font-weight: 600;
+  height: 45px;
+  padding-left: 40px;
+}
+
+.loginSection .loginBox .wrapper .form-group.focus .icon svg {
+  color: #0858f7 !important;
+}
+
+.loginSection .loginBox .wrapper .form-control:focus {
+  border: 1px solid #0858f7 !important;
+}
+
+.loginSection .loginBox .wrapper .form-group .icon {
+  position: absolute;
+  top: 3px;
+  left: 10px;
+  z-index: 100;
+  font-size: 23px;
+}
+
+.loginSection .loginBox .wrapper .form-group .icon svg {
+  color: #5e5d72;
 }
