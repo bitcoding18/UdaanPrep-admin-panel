@@ -506,7 +506,7 @@ header button.rounded-circle:hover svg {
 }
 
 .dashboardBoxWrapper .dashboardBox .chart {
-  opacity: 0.050;
+  opacity: 0.05;
   position: absolute;
   bottom: 20px;
   left: 20px;
@@ -577,7 +577,13 @@ header button.rounded-circle:hover svg {
   color: #403e57;
 }
 
-h1, h2, h3, h4, h5, h6, p {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
   color: #403e57;
 }
 
@@ -586,6 +592,10 @@ h1, h2, h3, h4, h5, h6, p {
   border-color: rgba(0, 0, 0, 0.1) !important;
   font-size: 13px !important;
   color: #fff;
+}
+
+.table tbody tr.even {
+  background-color: rgba(246,246,246,1) !important;
 }
 
 .table tbody td {
@@ -632,6 +642,12 @@ table td .imgWrapper {
   flex: 0 0 20%;
 }
 
+.mcTableImg {
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  box-shadow: 0 7px 15px 0 rgba(0, 0, 0, 0.1);
+}
+
 table td .info {
   width: 65%;
   flex: 0 0 65%;
@@ -659,7 +675,9 @@ table.v-align td .productBox {
   width: 270px;
 }
 
-.tableFooter { padding-bottom:  20px ;}
+.tableFooter {
+  padding-bottom: 20px;
+}
 
 .tableFooter .pagination {
   margin-left: auto;
