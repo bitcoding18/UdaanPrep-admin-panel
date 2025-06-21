@@ -11,6 +11,10 @@ body {
   overflow-x: hidden;
 }
 
+body.dark {
+  background: #071739;
+}
+
 ::-webkit-scrollbar {
   width: 5px !important;
   height: 5px !important;
@@ -43,6 +47,11 @@ body {
   padding: 10px 25px !important;
   border-radius: 8px !important;
   font-size: 16px !important;
+}
+
+.btn-big svg {
+  font-size: 25px !important;
+  margin-left: 7px;
 }
 
 .btn-round {
@@ -81,6 +90,10 @@ header {
   backdrop-filter: blur(5px);
 }
 
+body.dark header {
+  background: #112143 !important;
+}
+
 header .logo {
   text-decoration: none;
 }
@@ -93,6 +106,11 @@ header .logo span {
   color: #292929;
   font-weight: 800;
   font-size: 24px;
+}
+
+body.dark header .logo span {
+  color: #fff !important;
+  opacity: 0.9;
 }
 
 header button.rounded-circle {
@@ -113,6 +131,14 @@ header button.rounded-circle:hover svg {
   color: #0858f7 !important;
 }
 
+body.dark header button.rounded-circle {
+  background: #12254e !important;
+}
+
+body.dark header button.rounded-circle svg {
+  color: #fff !important;
+}
+
 header .part2 {
   padding-left: 70px;
 }
@@ -124,6 +150,11 @@ header .part2 {
   border-radius: 6px;
   padding: 3px 15px;
 }
+
+body.dark .searchBox {
+  background: #12254e !important;
+}
+
 .searchBox input {
   background: transparent;
   border: 0px;
@@ -135,6 +166,13 @@ header .part2 {
 .searchBox input::-webkit-input-placeholder {
   color: rgba(0, 0, 0, 0.6);
 }
+
+body.dark .searchBox input,
+body.dark .searchBox input::-webkit-input-placeholder,
+body.dark .searchBox svg {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
 .searchBox svg {
   font-size: 18px;
   color: #292929;
@@ -193,6 +231,20 @@ header .part2 {
   opacity: 0.7;
 }
 
+body.dark .myAcc .userInfo * {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+body.dark .MuiPaper-elevation {
+  background: #12254e !important;
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+body.dark .MuiPaper-elevation li *,
+body.dark .MuiPaper-elevation li {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
 #account-menu li {
   font-size: 14px !important;
   padding: 12px 15px !important;
@@ -219,10 +271,19 @@ header .part2 {
   margin-bottom: 0px;
 }
 
+body.dark .dropdown_list .head h4 {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
 .dropdown_list li.MuiButtonBase-root {
   background-color: #ebf6ff !important;
   color: #000 !important;
   padding: 10px 15px !important;
+}
+
+body.dark .dropdown_list li.MuiButtonBase-root {
+  background-color: #12254e !important;
+  color: rgba(255, 255, 255, 0.8) !important;
 }
 
 .dropdown_list li.MuiButtonBase-root:hover {
@@ -287,6 +348,10 @@ header .part2 {
   transition: all 0.3s ease-in-out;
 }
 
+body.dark .main .sidebarWrapper .sidebar {
+  background: #112143 !important;
+}
+
 .main .sidebarWrapper.toggle .sidebar {
   left: -100%;
 }
@@ -326,6 +391,10 @@ header .part2 {
   font-size: 15px !important;
 }
 
+body.dark .main .sidebarWrapper .sidebar ul li button {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
 .main .sidebarWrapper .sidebar ul li button .icon {
   display: flex;
   align-items: center;
@@ -343,6 +412,10 @@ header .part2 {
   color: #5e5d72 !important;
 }
 
+body.dark .main .sidebarWrapper .sidebar ul li button * {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
 .main .sidebarWrapper .sidebar ul li button .arrow {
   margin-left: auto;
   display: flex;
@@ -357,8 +430,16 @@ header .part2 {
   background: #f1f1f1 !important;
 }
 
+body.dark .main .sidebarWrapper .sidebar ul li button:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
 .main .sidebarWrapper .sidebar ul li button.active {
   background: #f1f1f1 !important;
+}
+
+body.dark .main .sidebarWrapper .sidebar ul li button.active {
+  background: rgba(255, 255, 255, 0.1) !important;
 }
 
 .main .sidebarWrapper .sidebar ul li button.active .icon svg {
@@ -386,6 +467,10 @@ header .part2 {
   background: rgba(0, 0, 0, 0.1);
 }
 
+body.dark .main .sidebarWrapper .sidebar ul .submenu::before {
+  background: rgba(255, 255, 255, 0.2) !important;
+}
+
 .main .sidebarWrapper .sidebar ul .submenu li {
   width: 100%;
   list-style: none;
@@ -401,7 +486,15 @@ header .part2 {
   transition: all 0.3s;
 }
 
+body.dark .main .sidebarWrapper .sidebar ul .submenu li a {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
 .main .sidebarWrapper .sidebar ul .submenu li a:hover {
+  color: #0858f7 !important;
+}
+
+body.dark .main .sidebarWrapper .sidebar ul .submenu li a:hover {
   color: #0858f7 !important;
 }
 
@@ -447,6 +540,11 @@ header .part2 {
   position: relative;
   overflow: hidden;
   display: flex;
+}
+
+body.dark .logoutWrapper .logoutBox {
+  background: transparent;
+  background-image: linear-gradient(#183e8c, #163474);
 }
 
 .logoutWrapper .logoutBox::before {
@@ -626,10 +724,20 @@ header .part2 {
   color: #403e57;
 }
 
+body.dark .card {
+  background: #112143 !important;
+}
+
+body.dark .card .hd {
+  font-size: 18px;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.2);
+}
+
 .cardFilters .col-md-3 h4 {
-  font-size: 14px;
-  font-weight: 800;
-  text-transform: capitalize;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
   color: #403e57;
 }
 
@@ -643,8 +751,30 @@ p {
   color: #403e57;
 }
 
+body.dark
+  .css-si86to-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.MuiSelect-select,
+body.dark h1,
+body.dark h2,
+body.dark h3,
+body.dark h4,
+body.dark h5,
+body.dark h6,
+body.dark p,
+body.dark .css-lohd6h-MuiSvgIcon-root-MuiSelect-icon,
+body.dark .css-d551zc-MuiSvgIcon-root-MuiSelect-icon {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+body.dark .css-sc8y68-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root {
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
 .table-responsive::-webkit-scrollbar-thumb {
   background: #ccc !important;
+}
+
+body.dark .table-responsive::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3) !important;
 }
 
 .table .thead-dark th {
@@ -656,6 +786,14 @@ p {
 
 .table tbody tr.even {
   background-color: rgba(246, 246, 246, 1) !important;
+}
+
+.table > :not(caption) > * > * {
+  background-color: transparent;
+}
+
+body.dark .table tbody tr.even {
+  background-color: #071739 !important;
 }
 
 .table tbody td {
@@ -731,6 +869,10 @@ table td .info p {
   margin-bottom: 0px;
 }
 
+body.dark table td .info p {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
 table.v-align td .productBox {
   width: 270px;
 }
@@ -749,8 +891,33 @@ table.v-align td .productBox {
   margin-bottom: 0px;
 }
 
+body.dark table td {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
 .css-1toZaaw-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected {
   background-color: #0858f7 !important;
+}
+
+body.dark .css-1toZaaw-MuiButtonBase-root-MuiPaginationItem-root {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+body.dark .css-1toZaaw-MuiButtonBase-root-MuiPaginationItem-root:hover {
+  color: #0858f7 !important;
+}
+
+body.dark .table-bordered td,
+.table-bordered th {
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+body.dark .css-1bug3cd-MuiButtonBase-root-MuiPaginationItem-root {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+body.dark .css-1bug3cd-MuiButtonBase-root-MuiPaginationItem-root:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
 }
 
 .loginSection {
@@ -764,7 +931,7 @@ table.v-align td .productBox {
 .loginPatern {
   width: 100%;
   height: 100%;
-  opacity: 0.08;
+  opacity: 0.1;
   position: fixed;
   top: 0px;
   left: 0px;
@@ -789,6 +956,10 @@ table.v-align td .productBox {
 
 .loginSection .loginBox .wrapper .form-group {
   margin-bottom: 15px;
+}
+
+.signUpSection .form-group button span {
+  letter-spacing: 2px;
 }
 
 .loginSection .loginBox .wrapper .form-control {
@@ -861,5 +1032,42 @@ table.v-align td .productBox {
 .loginWithGoogle {
   text-transform: capitalize !important;
   font-weight: bold !important;
+}
 
+.signUpSection {
+  background: #f1f1f1 !important;
+  padding: 0px 0px;
+  height: auto;
+}
+
+.signUpSection .loginBox {
+  background: #e4e4e4 !important;
+  position: relative;
+  z-index: 100;
+  width: 100% !important;
+  height: 100vh;
+  padding: 25px 5px !important;
+}
+
+.signUpSection .loginBox .wrapper {
+  border: 0px !important;
+  background: transparent !important;
+  padding-top: 10px !important;
+}
+
+.signUpSection .part1 {
+  padding-left: 100px;
+  padding-right: 100px;
+}
+
+.signUpSection .part1 h1 {
+  font-size: 50px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #5e5d72;
+}
+
+.signUpSection .part1 p {
+  font-size: 18px;
+  font-weight: 500;
 }

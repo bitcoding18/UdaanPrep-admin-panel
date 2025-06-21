@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import DashboardBox from "./components/dashbaordBox";
 import { FaUserCircle } from "react-icons/fa";
 import { IoMdCart } from "react-icons/io";
@@ -17,6 +17,7 @@ import { FaEye } from "react-icons/fa";
 import { FaPencilAlt } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { products } from "../../constants";
+import { MyContext } from "../../App";
 
 export const data = [
   ["Year", "Sales", "Expenses"],
@@ -38,6 +39,12 @@ const Dashboard = () => {
   const [showBy, setshowBy] = useState("");
   const [showCategoryBy, setCategoryBy] = useState("");
   const open = Boolean(anchorEl);
+  const context = useContext(MyContext);
+
+  useEffect(() => {
+    context.setIsHideSidebarAndHeader(false);
+    window.scrollTo(0, 0);
+  }, []);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
