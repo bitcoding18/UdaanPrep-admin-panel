@@ -18,6 +18,7 @@ import { FaPencilAlt } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { products } from "../../constants";
 import { MyContext } from "../../App";
+import { Link } from "react-router-dom";
 
 export const data = [
   ["Year", "Sales", "Expenses"],
@@ -239,9 +240,11 @@ const Dashboard = () => {
                       <td>{product?.revenue}</td>
                       <td>
                         <div className="actions d-flex align-items-center">
-                          <Button className="secondary" color="secondary">
-                            <FaEye />
-                          </Button>
+                          <Link to="/product/details">
+                            <Button className="secondary" color="secondary">
+                              <FaEye />
+                            </Button>
+                          </Link>
                           <Button className="success" color="success">
                             <FaPencilAlt />
                           </Button>

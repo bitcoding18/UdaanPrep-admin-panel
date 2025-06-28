@@ -19,6 +19,7 @@ import PersonAdd from "@mui/icons-material/PersonAdd";
 import Logout from "@mui/icons-material/Logout";
 import { FaShieldAlt } from "react-icons/fa";
 import { MyContext } from "../../App";
+import UserAvatarImgComponent from "../userAvatarImg";
 
 const Header = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -69,7 +70,10 @@ const Header = () => {
             </div>
 
             <div className="col-sm-7 d-flex align-items-center justify-content-end part3">
-              <Button className="rounded-circle me-3" onClick={() => context.setThemeMode(!context.themeMode)}>
+              <Button
+                className="rounded-circle me-3"
+                onClick={() => context.setThemeMode(!context.themeMode)}
+              >
                 <MdOutlineLightMode />
               </Button>
               <Button className="rounded-circle me-3">
@@ -106,16 +110,7 @@ const Header = () => {
                   <div className="scroll">
                     <MenuItem onClick={handleOpenMyAccDrop}>
                       <div className="d-flex ">
-                        <div>
-                          <div className="userImg">
-                            <span className="rounded-circle">
-                              <img
-                                src="https://mironcoder-hotash.netlify.app/images/avatar/01.webp"
-                                alt="User"
-                              />
-                            </span>
-                          </div>
-                        </div>
+                        <UserAvatarImgComponent img="https://mironcoder-hotash.netlify.app/images/avatar/01.webp" />
 
                         <div className="dropdownInfo">
                           <h4>
