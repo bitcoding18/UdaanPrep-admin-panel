@@ -81,7 +81,7 @@ const Dashboard = () => {
             </div>
           </div>
 
-          <div className="col-md-4 ps-0">
+          <div className="col-md-4 ps-0 topPart2">
             <div className="box graphBox">
               <div className="d-flex align-items-center w-100 bottomEle">
                 <h6 className="text-white mb-0 mt-0">Total Sales</h6>

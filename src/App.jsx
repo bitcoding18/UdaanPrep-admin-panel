@@ -1,6 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import "./responsive.css";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
@@ -9,6 +10,7 @@ import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import { useEffect } from "react";
 import ProductDetails from "./pages/ProductDetails";
+import ProductUpload from "./pages/ProductUpload";
 
 const MyContext = createContext();
 
@@ -17,6 +19,8 @@ function App() {
   const [isLogin, setIsLogin] = useState(true);
   const [isHideSidebarAndHeader, setIsHideSidebarAndHeader] = useState(false);
   const [themeMode, setThemeMode] = useState(true);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [isOpenNav, setIsOpenNav] = useState(false);
 
   useEffect(() => {
     if (themeMode === true) {
@@ -30,6 +34,20 @@ function App() {
     }
   }, [themeMode]);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  const openNav = () => {
+    setIsOpenNav(true);
+  };
+
   const values = {
     isToggleSidebar,
     setIsToggleSidebar,
@@ -39,6 +57,9 @@ function App() {
     setIsHideSidebarAndHeader,
     themeMode,
     setThemeMode,
+    windowWidth,
+    openNav,
+    isOpenNav,
   };
 
   return (
@@ -47,13 +68,19 @@ function App() {
         {!isHideSidebarAndHeader && <Header />}
         <div className="main d-flex">
           {!isHideSidebarAndHeader && (
-            <div
-              className={`sidebarWrapper ${
-                isToggleSidebar === true ? "toggle" : ""
-              }`}
-            >
-              <Sidebar />
-            </div>
+            <>
+              <div
+                className={`sidebarOverlay d-none ${isOpenNav === true && 'show'}`}
+                onClick={() => setIsOpenNav(false)}
+              ></div>
+              <div
+                className={`sidebarWrapper ${
+                  isToggleSidebar === true ? "toggle" : ""
+                } ${isOpenNav === true ? "open" : ""}`}
+              >
+                <Sidebar />
+              </div>
+            </>
           )}
           <div
             className={`content ${isHideSidebarAndHeader && "full"} ${
@@ -66,7 +93,11 @@ function App() {
               <Route path="/login" exact={true} element={<Login />} />
               <Route path="/signUp" exact={true} element={<SignUp />} />
               {/* <Route path="/products" exact={true} element={<Products />} /> */}
-              <Route path="/product/details" exact={true} element={<ProductDetails />} />
+              <Route
+                path="/product/details"
+                exact={true}
+                element={<ProductDetails />}
+              />
             </Routes>
           </div>
         </div>

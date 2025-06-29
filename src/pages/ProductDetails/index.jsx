@@ -105,17 +105,16 @@ const ProductDetails = () => {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    arrows: false,
+    arrows: true,
   };
 
   var productSliderSmlOptions = {
     dots: false,
     infinite: false,
-    speed: 500,
+    speed: 1000,
     slidesToShow: 4,
-    slidesToScroll: 1,
-
-    arrows: false,
+    slidesToScroll: 2,
+    arrows: true,
   };
 
   const goToSlide = (slideIndex) => {
@@ -130,7 +129,7 @@ const ProductDetails = () => {
   return (
     <>
       <div className="right-content w-100">
-        <div className="card shadow border-0 w-100 flex-row p-4">
+        <div className="card shadow border-0 w-100 flex-row p-4 res-col">
           <h5 className="mb-0">Product View</h5>
           <Breadcrumbs aria-label="breadcrumb" className="ms-auto breadcrumbs">
             <StyledBreadcrumb
@@ -378,11 +377,6 @@ const ProductDetails = () => {
                         value={4.5}
                         readOnly
                         precision={0.5}
-                        sx={{
-                          "& svg": {
-                            border: "1px solid #ccc",
-                          },
-                        }}
                       />
                     </div>
                   </div>

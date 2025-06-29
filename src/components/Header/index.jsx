@@ -5,9 +5,6 @@ import Button from "@mui/material/Button";
 import { MdMenuOpen } from "react-icons/md";
 import { MdOutlineMenu } from "react-icons/md";
 import SearchBox from "../SearchBox";
-import { MdDarkMode } from "react-icons/md";
-import { IoCartOutline } from "react-icons/io5";
-import { MdOutlineMailOutline } from "react-icons/md";
 import { FaRegBell } from "react-icons/fa";
 import { MdOutlineLightMode } from "react-icons/md";
 
@@ -20,6 +17,7 @@ import Logout from "@mui/icons-material/Logout";
 import { FaShieldAlt } from "react-icons/fa";
 import { MyContext } from "../../App";
 import UserAvatarImgComponent from "../userAvatarImg";
+import { IoMenu } from "react-icons/io5";
 
 const Header = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -57,17 +55,19 @@ const Header = () => {
               </Link>
             </div>
 
-            <div className="col-sm-3 d-flex align-items-center part2">
-              <Button
-                className="rounded-circle"
-                onClick={() =>
-                  context.setIsToggleSidebar(!context.isToggleSidebar)
-                }
-              >
-                {context.isToggleSidebar ? <MdOutlineMenu /> : <MdMenuOpen />}
-              </Button>
-              <SearchBox />
-            </div>
+            {context.windowWidth > 992 && (
+              <div className="col-sm-3 d-flex align-items-center part2 res-hide">
+                <Button
+                  className="rounded-circle"
+                  onClick={() =>
+                    context.setIsToggleSidebar(!context.isToggleSidebar)
+                  }
+                >
+                  {context.isToggleSidebar ? <MdOutlineMenu /> : <MdMenuOpen />}
+                </Button>
+                <SearchBox />
+              </div>
+            )}
 
             <div className="col-sm-7 d-flex align-items-center justify-content-end part3">
               <Button
@@ -76,13 +76,6 @@ const Header = () => {
               >
                 <MdOutlineLightMode />
               </Button>
-              <Button className="rounded-circle me-3">
-                <IoCartOutline />
-              </Button>
-
-              <Button className="rounded-circle me-3">
-                <MdOutlineMailOutline />
-              </Button>
 
               <div className="dropdownWrapper position-relative">
                 <Button
@@ -90,6 +83,10 @@ const Header = () => {
                   onClick={handleOpenNotficationsDrop}
                 >
                   <FaRegBell />
+                </Button>
+
+                <Button className="rounded-circle me-3" onClick={() => context.openNav()}>
+                  <IoMenu />
                 </Button>
 
                 <Menu
@@ -296,7 +293,7 @@ const Header = () => {
                       </span>
                     </div>
 
-                    <div className="userInfo">
+                    <div className="userInfo res-hide">
                       <h4>Rakesh Vanand</h4>
                       <p className="mb-0">@rakeshv1108</p>
                     </div>

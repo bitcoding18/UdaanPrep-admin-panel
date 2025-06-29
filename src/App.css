@@ -1292,7 +1292,7 @@ body.light .reviewsSection .reviewsRow {
 
 body.dark .userInfo .info span {
   color: rgba(255, 255, 255, 0.7) !important;
-} 
+}
 
 .reviewsSection .reviewsRow p {
   padding-left: 20px;
@@ -1341,3 +1341,103 @@ body.light .reviewForm textarea {
 body.light .reviewForm textarea::-webkit-input-placeholder {
   color: rgba(0, 0, 0, 0.5);
 }
+
+.form .form-group {
+  margin-bottom: 25px;
+}
+
+.form .form-group h6 {
+  margin-bottom: 10px;
+  font-size: 13px;
+}
+
+.form .form-group input, .form .form-group textarea {
+  background: #fafafa;
+  width: 100%;
+  outline: none !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  height: 56px;
+  padding-left: 15px;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.form .form-group textarea {
+  height: 120px;
+  padding-top: 15px;
+}
+
+body.dark .form .form-group input, body.dark .form .form-group textarea {
+  background: rgba(27, 43, 77, 1) !important;
+  color: rgba(255, 255, 255, 0.8) !important;
+  border: 1px solid #253557 !important;
+}
+
+.media-upload-container {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.media-image-wrapper {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  margin-top: 20px;
+  margin-right: 5px;
+}
+
+.media-image-wrapper,
+.media-upload-box {
+  width: 150px;
+  height: 150px;
+  position: relative;
+  margin: 0; 
+}
+
+.media-upload-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.media-remove-btn {
+  position: absolute !important;
+  top: -10px;
+  right: -8px;
+  min-width: 24px !important;
+  min-height: 24px !important;
+  padding: 0 !important;
+  border-radius: 50% !important;
+  color: #fff !important;
+  background-color: #f44336 !important;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.media-upload-box {
+  width: 150px;
+  height: 150px;
+  border: 2px dashed #ccc !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #999 !important;
+  font-size: 0.8rem !important;
+  text-align: center;
+  margin-top: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.media-upload-box-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
