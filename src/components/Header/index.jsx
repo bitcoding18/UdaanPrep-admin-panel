@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/images/transparent_logo.png";
 import Button from "@mui/material/Button";
 import { MdMenuOpen } from "react-icons/md";
@@ -18,6 +18,7 @@ import { FaShieldAlt } from "react-icons/fa";
 import { MyContext } from "../../App";
 import UserAvatarImgComponent from "../userAvatarImg";
 import { IoMenu } from "react-icons/io5";
+import { notifications } from "../../constants";
 
 const Header = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -25,6 +26,7 @@ const Header = () => {
   const openMyAcc = Boolean(anchorEl);
   const openNotifications = Boolean(isOpenNotificationDrop);
   const context = useContext(MyContext);
+  const navigate = useNavigate();
 
   const handleOpenMyAccDrop = (event) => {
     setAnchorEl(event.currentTarget);
@@ -40,6 +42,14 @@ const Header = () => {
 
   const handleCloseNotficationsDrop = () => {
     setIsOpenNotificationDrop(false);
+  };
+
+  const handleLogoutAction = () => {
+    // Handle logout logic here
+    console.log("User logged out");
+    handleCloseMyAccDrop();
+    context.setIsLogin(false);
+    navigate("/login");
   };
 
   return (
@@ -78,16 +88,21 @@ const Header = () => {
               </Button>
 
               <div className="dropdownWrapper position-relative">
-                <Button
+                {context.windowWidth > 992 && <Button
                   className="rounded-circle me-3"
                   onClick={handleOpenNotficationsDrop}
                 >
                   <FaRegBell />
-                </Button>
+                </Button>}
 
-                <Button className="rounded-circle me-3" onClick={() => context.openNav()}>
-                  <IoMenu />
-                </Button>
+                {context.windowWidth < 992 && (
+                  <Button
+                    className="rounded-circle me-3"
+                    onClick={() => context.openNav()}
+                  >
+                    <IoMenu />
+                  </Button>
+                )}
 
                 <Menu
                   anchorEl={isOpenNotificationDrop}
@@ -105,165 +120,27 @@ const Header = () => {
 
                   <Divider className="mb-1" />
                   <div className="scroll">
-                    <MenuItem onClick={handleOpenMyAccDrop}>
-                      <div className="d-flex ">
-                        <UserAvatarImgComponent img="https://mironcoder-hotash.netlify.app/images/avatar/01.webp" />
-
-                        <div className="dropdownInfo">
-                          <h4>
-                            <span>
-                              <b>Mahmudul</b>added to his favorite list
-                              <b>Leather belt steve madden</b>
-                            </span>
-                          </h4>
-                          <p className="text-sky mb-0">few seconds ago!</p>
-                        </div>
-                      </div>
-                    </MenuItem>
-                    <MenuItem onClick={handleOpenMyAccDrop}>
-                      <div className="d-flex ">
-                        <div>
-                          <div className="userImg">
-                            <span className="rounded-circle">
-                              <img
-                                src="https://mironcoder-hotash.netlify.app/images/avatar/01.webp"
-                                alt="User"
-                              />
-                            </span>
+                    {notifications.map((notification, index) => (
+                      <MenuItem key={index} onClick={handleOpenMyAccDrop}>
+                        <div className="d-flex">
+                          <div>
+                            <UserAvatarImgComponent img={notification.image} />
+                          </div>
+                          <div className="dropdownInfo">
+                            <h4>
+                              <span>
+                                <b>{notification.name}</b>
+                                {notification.message}
+                              </span>
+                            </h4>
+                            <p className="text-sky mb-0">
+                              {notification.time}
+                            </p>
                           </div>
                         </div>
-
-                        <div className="dropdownInfo">
-                          <h4>
-                            <span>
-                              <b>Mahmudul</b>added to his favorite list
-                              <b>Leather belt steve madden</b>
-                            </span>
-                          </h4>
-                          <p className="text-sky mb-0">few seconds ago!</p>
-                        </div>
-                      </div>
-                    </MenuItem>
-                    <MenuItem onClick={handleOpenMyAccDrop}>
-                      <div className="d-flex ">
-                        <div>
-                          <div className="userImg">
-                            <span className="rounded-circle">
-                              <img
-                                src="https://mironcoder-hotash.netlify.app/images/avatar/01.webp"
-                                alt="User"
-                              />
-                            </span>
-                          </div>
-                        </div>
-
-                        <div className="dropdownInfo">
-                          <h4>
-                            <span>
-                              <b>Mahmudul</b>added to his favorite list
-                              <b>Leather belt steve madden</b>
-                            </span>
-                          </h4>
-                          <p className="text-sky mb-0">few seconds ago!</p>
-                        </div>
-                      </div>
-                    </MenuItem>
-                    <MenuItem onClick={handleOpenMyAccDrop}>
-                      <div className="d-flex ">
-                        <div>
-                          <div className="userImg">
-                            <span className="rounded-circle">
-                              <img
-                                src="https://mironcoder-hotash.netlify.app/images/avatar/01.webp"
-                                alt="User"
-                              />
-                            </span>
-                          </div>
-                        </div>
-
-                        <div className="dropdownInfo">
-                          <h4>
-                            <span>
-                              <b>Mahmudul</b>added to his favorite list
-                              <b>Leather belt steve madden</b>
-                            </span>
-                          </h4>
-                          <p className="text-sky mb-0">few seconds ago!</p>
-                        </div>
-                      </div>
-                    </MenuItem>
-                    <MenuItem onClick={handleOpenMyAccDrop}>
-                      <div className="d-flex ">
-                        <div>
-                          <div className="userImg">
-                            <span className="rounded-circle">
-                              <img
-                                src="https://mironcoder-hotash.netlify.app/images/avatar/01.webp"
-                                alt="User"
-                              />
-                            </span>
-                          </div>
-                        </div>
-
-                        <div className="dropdownInfo">
-                          <h4>
-                            <span>
-                              <b>Mahmudul</b>added to his favorite list
-                              <b>Leather belt steve madden</b>
-                            </span>
-                          </h4>
-                          <p className="text-sky mb-0">few seconds ago!</p>
-                        </div>
-                      </div>
-                    </MenuItem>
-                    <MenuItem onClick={handleOpenMyAccDrop}>
-                      <div className="d-flex ">
-                        <div>
-                          <div className="userImg">
-                            <span className="rounded-circle">
-                              <img
-                                src="https://mironcoder-hotash.netlify.app/images/avatar/01.webp"
-                                alt="User"
-                              />
-                            </span>
-                          </div>
-                        </div>
-
-                        <div className="dropdownInfo">
-                          <h4>
-                            <span>
-                              <b>Mahmudul</b>added to his favorite list
-                              <b>Leather belt steve madden</b>
-                            </span>
-                          </h4>
-                          <p className="text-sky mb-0">few seconds ago!</p>
-                        </div>
-                      </div>
-                    </MenuItem>
-                    <MenuItem onClick={handleOpenMyAccDrop}>
-                      <div className="d-flex ">
-                        <div>
-                          <div className="userImg">
-                            <span className="rounded-circle">
-                              <img
-                                src="https://mironcoder-hotash.netlify.app/images/avatar/01.webp"
-                                alt="User"
-                              />
-                            </span>
-                          </div>
-                        </div>
-
-                        <div className="dropdownInfo">
-                          <h4>
-                            <span>
-                              <b>Mahmudul</b>added to his favorite list
-                              <b>Leather belt steve madden</b>
-                            </span>
-                          </h4>
-                          <p className="text-sky mb-0">few seconds ago!</p>
-                        </div>
-                      </div>
-                    </MenuItem>
+                      </MenuItem>
+                    ))}
+                    
                   </div>
 
                   <div className="ps-3 pe-3 w-100 pt-3 pb-1">
@@ -321,7 +198,7 @@ const Header = () => {
                       </ListItemIcon>
                       Reset Password
                     </MenuItem>
-                    <MenuItem onClick={handleOpenMyAccDrop}>
+                    <MenuItem onClick={handleLogoutAction}>
                       <ListItemIcon>
                         <Logout fontSize="small" />
                       </ListItemIcon>

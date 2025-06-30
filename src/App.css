@@ -46,7 +46,7 @@ body.dark {
 .btn-big {
   padding: 10px 25px !important;
   border-radius: 8px !important;
-  font-size: 20px !important;
+  font-size: 15px !important;
 }
 
 .btn-big svg {
@@ -849,6 +849,22 @@ body.dark .table tbody tr.even {
 .table tbody .actions button.error {
   background: rgba(241, 17, 51, 0.2);
 }
+
+body.dark .table tbody .actions button.secondary {
+  background: rgba(203, 60, 231, 1);
+  color: white;
+}
+
+body.dark .table tbody .actions button.success {
+  background: rgba(26, 159, 83, 1);
+  color: white;
+}
+
+body.dark .table tbody .actions button.error {
+  background: rgba(241, 17, 51, 1);
+  color: white;
+}
+
 
 .table tbody .actions button svg {
   font-size: 32px !important;

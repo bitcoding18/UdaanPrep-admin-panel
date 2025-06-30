@@ -23,19 +23,17 @@ const Sidebar = () => {
       <div className="sidebar">
         <ul>
           <li>
-            <Link to="/Dashboard"></Link>
-            <Button
-              className={`w-100 ${activeTab === 0} ? 'active' : ''`}
-              onClick={() => isOpenSubMenu(0)}
-            >
-              <span className="icon">
-                <MdDashboard />
-              </span>
-              Dashboard
-              <span className="arrow">
-                <FaAngleRight />{" "}
-              </span>
-            </Button>
+            <Link to="/">
+              <Button
+                className={`w-100 ${activeTab === 0 ? "active" : ""}`}
+                onClick={() => isOpenSubMenu(0)}
+              >
+                <span className="icon">
+                  <MdDashboard />
+                </span>
+                Dashboard
+              </Button>
+            </Link>
           </li>
           <li>
             <Button

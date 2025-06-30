@@ -241,7 +241,7 @@ const Dashboard = () => {
                       <td>
                         <div className="actions d-flex align-items-center">
                           <Link to="/product/details">
-                            <Button className="secondary" color="secondary">
+                            <Button className="secondary" color={"secondary"}>
                               <FaEye />
                             </Button>
                           </Link>

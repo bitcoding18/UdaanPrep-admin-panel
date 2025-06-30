@@ -1,14 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import { emphasize, styled } from "@mui/material/styles";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Chip from "@mui/material/Chip";
 import HomeIcon from "@mui/icons-material/Home";
 import Slider from "react-slick";
 import { MdBrandingWatermark } from "react-icons/md";
-import { BiSolidCategoryAlt } from "react-icons/bi";
 import UserAvatarImgComponent from "../../components/userAvatarImg";
 import { Button, Rating } from "@mui/material";
 import { FaReply } from "react-icons/fa";
+import { arrProductInfo, arrProductRatings } from "../../constants";
+import { MyContext } from "../../App";
 
 const StyledBreadcrumb = styled(Chip)(({ theme }) => {
   const backgroundColor =
@@ -30,74 +31,10 @@ const StyledBreadcrumb = styled(Chip)(({ theme }) => {
   };
 });
 
-const arrProductInfo = [
-  {
-    key: "Brand",
-    value: "Ecstasy",
-    type: "string",
-    icon: <MdBrandingWatermark />,
-  },
-  {
-    key: "Category",
-    value: "Man's",
-    type: "string",
-    icon: <BiSolidCategoryAlt />,
-  },
-  {
-    key: "Tags",
-    value: ["SUITE", "PARTY", "DRESS", "SMART", "MAN", "STYLES"],
-    type: "array",
-    icon: <MdBrandingWatermark />,
-  },
-  {
-    key: "Color",
-    value: ["RED", "BLUE", "GREEN", "YELLOW", "PURPLE"],
-    type: "array",
-    icon: <MdBrandingWatermark />,
-  },
-  {
-    key: "Size",
-    value: ["SM", "MD", "LG", "XL", "XXL"],
-    type: "array",
-    icon: <MdBrandingWatermark />,
-  },
-  {
-    key: "Price",
-    value: ["$37.00", "$42.00"],
-    type: "array",
-    icon: <MdBrandingWatermark />,
-  },
-  {
-    key: "Stock",
-    value: "(68) Piece",
-    type: "string",
-    icon: <MdBrandingWatermark />,
-  },
-  {
-    key: "Review",
-    value: "(03) Review",
-    type: "string",
-    icon: <MdBrandingWatermark />,
-  },
-  {
-    key: "Published",
-    value: "02 Feb 2020",
-    type: "string",
-    icon: <MdBrandingWatermark />,
-  },
-];
-
-const arrProductRatings = [
-  { id: 1, percentage: "80%", count: 22, stars: 5 },
-  { id: 2, percentage: "60%", count: 15, stars: 4 },
-  { id: 3, percentage: "40%", count: 10, stars: 3 },
-  { id: 4, percentage: "20%", count: 5, stars: 2 },
-  { id: 5, percentage: "10%", count: 2, stars: 1 },
-];
-
 const ProductDetails = () => {
   const productSliderBig = React.useRef(null);
   const productSliderSml = React.useRef(null);
+  const context = useContext(MyContext);
 
   var productSliderOptions = {
     dots: false,
@@ -105,7 +42,7 @@ const ProductDetails = () => {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    arrows: true,
+    arrows: false,
   };
 
   var productSliderSmlOptions = {
@@ -114,7 +51,7 @@ const ProductDetails = () => {
     speed: 1000,
     slidesToShow: 4,
     slidesToScroll: 2,
-    arrows: true,
+    arrows: false,
   };
 
   const goToSlide = (slideIndex) => {
@@ -283,8 +220,8 @@ const ProductDetails = () => {
                             <span className="name">{item?.key}</span>
                           </div>
                           <div className="col-sm-9">
-                            : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            <>
+                            :
+                            <div className="ms-2">
                               {item?.type === "string" ? (
                                 item?.value
                               ) : (
@@ -292,7 +229,7 @@ const ProductDetails = () => {
                                   <ul className="list list-inline tags sml">
                                     {item?.value?.map((subItem, subIndex) => {
                                       return (
-                                        <li className="list-inline-item">
+                                        <li className="list-inline-item ms-0">
                                           <span>{subItem}</span>
                                         </li>
                                       );
@@ -300,7 +237,7 @@ const ProductDetails = () => {
                                   </ul>
                                 </span>
                               )}
-                            </>
+                            </div>
                           </div>
                         </div>
                       );

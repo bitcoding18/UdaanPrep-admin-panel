@@ -98,6 +98,11 @@ function App() {
                 exact={true}
                 element={<ProductDetails />}
               />
+              <Route
+                path="/product/upload"
+                exact={true}
+                element={<ProductUpload />}
+              />
             </Routes>
           </div>
         </div>

@@ -80,6 +80,10 @@
     padding: 90px 15px !important;
   }
 
+  .right-content .col-md-4 {
+    padding-bottom: 15px !important;
+  }
+
   .dashboardBoxWrapper {
     white-space: nowrap !important;
     overflow-x: scroll;

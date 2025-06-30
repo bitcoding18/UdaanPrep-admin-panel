@@ -1,3 +1,6 @@
+import { BiSolidCategoryAlt } from "react-icons/bi";
+import { MdBrandingWatermark } from "react-icons/md";
+
 const products = [
   {
     id: 1,
@@ -141,4 +144,108 @@ const products = [
   },
 ];
 
-export {products};
+const notifications = [
+  {
+    name: "Mahmudul",
+    message: "added to his favorite list Leather belt steve madden",
+    image: "https://mironcoder-hotash.netlify.app/images/avatar/01.webp",
+    time: "about few minutes ago!",
+  },
+  {
+    name: "labonno",
+    message: "leave her comment to Dressni Breathable female Dress",
+    image: "https://mironcoder-hotash.netlify.app/images/avatar/02.webp",
+    time: "about few minutes ago!",
+  },
+  {
+    name: "tahmina",
+    message: "announce to 50% discount New Exclusive long kurti",
+    image: "https://mironcoder-hotash.netlify.app/images/avatar/03.webp",
+    time: "about few minutes ago!",
+  },
+  {
+    name: "jubayer",
+    message: "write to his latest blog Best fashion outfit this winter",
+    image: "https://mironcoder-hotash.netlify.app/images/avatar/04.webp",
+    time: "about few minutes ago!",
+  },
+  {
+    name: "rebeka",
+    message: "give a review to Exclusive Designed Multicolor long Kaptan",
+    image: "https://mironcoder-hotash.netlify.app/images/avatar/01.webp",
+    time: "about few minutes ago!",
+  },
+  {
+    name: "hotash",
+    message: "privacy updated and secure all this multitask platform",
+    image: "https://mironcoder-hotash.netlify.app/images/avatar/02.webp",
+    time: "about few minutes ago!",
+  },
+];
+
+const arrProductInfo = [
+  {
+    key: "Brand",
+    value: "Ecstasy",
+    type: "string",
+    icon: <MdBrandingWatermark />,
+  },
+  {
+    key: "Category",
+    value: "Man's",
+    type: "string",
+    icon: <BiSolidCategoryAlt />,
+  },
+  {
+    key: "Tags",
+    value: ["SUITE", "PARTY", "DRESS", "SMART", "MAN", "STYLES"],
+    type: "array",
+    icon: <MdBrandingWatermark />,
+  },
+  {
+    key: "Color",
+    value: ["RED", "BLUE", "GREEN", "YELLOW", "PURPLE"],
+    type: "array",
+    icon: <MdBrandingWatermark />,
+  },
+  {
+    key: "Size",
+    value: ["SM", "MD", "LG", "XL", "XXL"],
+    type: "array",
+    icon: <MdBrandingWatermark />,
+  },
+  {
+    key: "Price",
+    value: ["$37.00", "$42.00"],
+    type: "array",
+    icon: <MdBrandingWatermark />,
+  },
+  {
+    key: "Stock",
+    value: "(68) Piece",
+    type: "string",
+    icon: <MdBrandingWatermark />,
+  },
+  {
+    key: "Review",
+    value: "(03) Review",
+    type: "string",
+    icon: <MdBrandingWatermark />,
+  },
+  {
+    key: "Published",
+    value: "02 Feb 2020",
+    type: "string",
+    icon: <MdBrandingWatermark />,
+  },
+];
+
+const arrProductRatings = [
+  { id: 1, percentage: "80%", count: 22, stars: 5 },
+  { id: 2, percentage: "60%", count: 15, stars: 4 },
+  { id: 3, percentage: "40%", count: 10, stars: 3 },
+  { id: 4, percentage: "20%", count: 5, stars: 2 },
+  { id: 5, percentage: "10%", count: 2, stars: 1 },
+];
+
+export { products, notifications, arrProductInfo, arrProductRatings };
