@@ -5,22 +5,38 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
-import { createContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import { useEffect } from "react";
 import ProductDetails from "./pages/ProductDetails";
 import ProductUpload from "./pages/ProductUpload";
+import { GlobalContext } from "./context/globalProvider";
+import Admin from "./pages/Admin";
 
 const MyContext = createContext();
 
 function App() {
-  const [isToggleSidebar, setIsToggleSidebar] = useState(false);
-  const [isLogin, setIsLogin] = useState(true);
-  const [isHideSidebarAndHeader, setIsHideSidebarAndHeader] = useState(false);
-  const [themeMode, setThemeMode] = useState(true);
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const [isOpenNav, setIsOpenNav] = useState(false);
+  const contextData = useContext(GlobalContext);
+
+  if (!contextData) {
+    return null;
+  }
+
+  const {
+    isToggleSidebar,
+    setIsToggleSidebar,
+    isLogin,
+    setIsLogin,
+    isHideSidebarAndHeader,
+    setIsHideSidebarAndHeader,
+    themeMode,
+    setThemeMode,
+    windowWidth,
+    setWindowWidth,
+    isOpenNav,
+    setIsOpenNav,
+  } = contextData;
 
   useEffect(() => {
     if (themeMode === true) {
@@ -44,33 +60,17 @@ function App() {
     };
   }, []);
 
-  const openNav = () => {
-    setIsOpenNav(true);
-  };
-
-  const values = {
-    isToggleSidebar,
-    setIsToggleSidebar,
-    isLogin,
-    setIsLogin,
-    isHideSidebarAndHeader,
-    setIsHideSidebarAndHeader,
-    themeMode,
-    setThemeMode,
-    windowWidth,
-    openNav,
-    isOpenNav,
-  };
-
   return (
-    <BrowserRouter>
-      <MyContext.Provider value={values}>
+    <>
+      <BrowserRouter>
         {!isHideSidebarAndHeader && <Header />}
         <div className="main d-flex">
           {!isHideSidebarAndHeader && (
             <>
               <div
-                className={`sidebarOverlay d-none ${isOpenNav === true && 'show'}`}
+                className={`sidebarOverlay d-none ${
+                  isOpenNav === true && "show"
+                }`}
                 onClick={() => setIsOpenNav(false)}
               ></div>
               <div
@@ -89,6 +89,7 @@ function App() {
           >
             <Routes>
               <Route path="/" exact={true} element={<Dashboard />} />
+              <Route path="/admin" exact={true} element={<Admin />} />
               <Route path="/dashbaord" exact={true} element={<Dashboard />} />
               <Route path="/login" exact={true} element={<Login />} />
               <Route path="/signUp" exact={true} element={<SignUp />} />
@@ -106,8 +107,8 @@ function App() {
             </Routes>
           </div>
         </div>
-      </MyContext.Provider>
-    </BrowserRouter>
+      </BrowserRouter>
+    </>
   );
 }
 

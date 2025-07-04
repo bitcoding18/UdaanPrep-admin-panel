@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from "react";
 import Logo from "../../assets/images/square_logo.png";
-import { MyContext } from "../../App";
 import patern from "../../assets/images/pattern.webp";
 import { MdEmail } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
@@ -11,12 +10,13 @@ import googleIcon from "../../assets/images/google-icon.png";
 import { IoShieldCheckmarkSharp } from "react-icons/io5";
 import { FaUserCircle } from "react-icons/fa";
 import { FormControlLabel, Checkbox } from "@mui/material";
+import { GlobalContext } from "../../context/globalProvider";
 
 const SignUp = () => {
   const [inputIndex, setInputIndex] = useState(null);
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [isShowConfirmPassword, setIsShowConfirmPassword] = useState(false);
-  const context = useContext(MyContext);
+  const context = useContext(GlobalContext);
 
   useEffect(() => {
     context.setIsHideSidebarAndHeader(true);

@@ -1,17 +1,17 @@
 import Button from "@mui/material/Button";
 import { FaAngleRight, FaBell, FaCartArrowDown } from "react-icons/fa6";
-import { MdDashboard, MdMessage } from "react-icons/md";
+import { MdAdminPanelSettings, MdDashboard, MdMessage } from "react-icons/md";
 import { FaProductHunt } from "react-icons/fa";
 import { IoIosSettings } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { useContext, useState } from "react";
 import { IoMdLogOut } from "react-icons/io";
-import { MyContext } from "../../App";
+import { GlobalContext } from "../../context/globalProvider";
 
 const Sidebar = () => {
   const [activeTab, setActiveTab] = useState(0);
   const [isToggleSubMenu, setIsToggleSubMenu] = useState(false);
-  const context = useContext(MyContext);
+  const context = useContext(GlobalContext);
 
   const isOpenSubMenu = (index) => {
     setActiveTab(index);
@@ -36,11 +36,24 @@ const Sidebar = () => {
             </Link>
           </li>
           <li>
+            <Link to="/admin">
+              <Button
+                className={`w-100 ${activeTab === 1 ? "active" : ""}`}
+                onClick={() => isOpenSubMenu(1)}
+              >
+                <span className="icon">
+                  <MdAdminPanelSettings />
+                </span>
+                Admin Management
+              </Button>
+            </Link>
+          </li>
+          <li>
             <Button
               className={`w-100 ${
-                activeTab === 1 && isToggleSubMenu === true ? "active" : ""
+                activeTab === 2 && isToggleSubMenu === true ? "active" : ""
               }`}
-              onClick={() => isOpenSubMenu(1)}
+              onClick={() => isOpenSubMenu(2)}
             >
               <span className="icon">
                 <FaProductHunt />
@@ -52,7 +65,7 @@ const Sidebar = () => {
             </Button>
             <div
               className={`submenuWrapper ${
-                activeTab === 1 && isToggleSubMenu === true
+                activeTab === 2 && isToggleSubMenu === true
                   ? "colapse"
                   : "colapsed"
               }`}
@@ -74,9 +87,9 @@ const Sidebar = () => {
             <Link to="/"></Link>
             <Button
               className={`w-100 ${
-                activeTab === 2 && isToggleSubMenu === true
+                activeTab === 3 && isToggleSubMenu === true
               } ? 'active' : ''`}
-              onClick={() => isOpenSubMenu(2)}
+              onClick={() => isOpenSubMenu(3)}
             >
               <span className="icon">
                 <FaCartArrowDown />

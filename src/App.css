@@ -37,6 +37,11 @@ body.dark {
   color: #fff !important;
   text-transform: capitalize;
   border-radius: 5px !important;
+  height: 45px !important;
+}
+
+.btn-transparent {
+  background: transparent !important;
 }
 
 .btn-lg {

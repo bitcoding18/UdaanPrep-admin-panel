@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import DashboardBox from "./components/dashbaordBox";
 import { FaUserCircle } from "react-icons/fa";
 import { IoMdCart } from "react-icons/io";
@@ -17,8 +17,8 @@ import { FaEye } from "react-icons/fa";
 import { FaPencilAlt } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { products } from "../../constants";
-import { MyContext } from "../../App";
 import { Link } from "react-router-dom";
+import { GlobalContext } from "../../context/globalProvider";
 
 export const data = [
   ["Year", "Sales", "Expenses"],
@@ -40,7 +40,7 @@ const Dashboard = () => {
   const [showBy, setshowBy] = useState("");
   const [showCategoryBy, setCategoryBy] = useState("");
   const open = Boolean(anchorEl);
-  const context = useContext(MyContext);
+  const context = useContext(GlobalContext);
 
   useEffect(() => {
     context.setIsHideSidebarAndHeader(false);

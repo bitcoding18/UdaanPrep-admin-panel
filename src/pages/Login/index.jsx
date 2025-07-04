@@ -1,18 +1,23 @@
 import { useContext, useEffect, useState } from "react";
 import Logo from "../../assets/images/square_logo.png";
-import { MyContext } from "../../App";
 import patern from "../../assets/images/pattern.webp";
 import { MdEmail } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import Button from "@mui/material/Button";
-import { Link } from "react-router-dom";
-import googleIcon from "../../assets/images/google-icon.png";
+import { Link, useNavigate } from "react-router-dom";
+import { GlobalContext } from "../../context/globalProvider";
+import toast from "react-hot-toast";
+import { loginAPI } from "../../services/api-services/auth";
 
 const Login = () => {
   const [inputIndex, setInputIndex] = useState(null);
   const [isShowPassword, setIsShowPassword] = useState(false);
-  const context = useContext(MyContext);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const context = useContext(GlobalContext);
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     context.setIsHideSidebarAndHeader(true);
@@ -20,6 +25,22 @@ const Login = () => {
 
   const focusInput = (index) => {
     setInputIndex(index);
+  };
+
+  const onLoginBtnClick = async (e) => {
+    e.preventDefault();
+    const bodyReq = {
+      email: email,
+      password: password,
+    };
+    const response = await toast.promise(loginAPI(context, bodyReq), {
+      loading: "Sign in...",
+      success: <b>Signin successfully!</b>,
+      error: <b>Something went wrong.</b>,
+    });    
+    if (response?.statusCode === 200) {
+      navigate("/");
+    }
   };
 
   return (
@@ -33,7 +54,7 @@ const Login = () => {
           </div>
 
           <div className="wrapper mt-3 card border">
-            <form>
+            <form onSubmit={onLoginBtnClick}>
               <div
                 className={`form-group position-relative ${
                   inputIndex === 0 && "focus"
@@ -49,6 +70,7 @@ const Login = () => {
                   onFocus={() => focusInput(0)}
                   onBlur={() => focusInput(null)}
                   autoFocus
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
 
@@ -66,6 +88,7 @@ const Login = () => {
                   placeholder="enter your password"
                   onFocus={() => focusInput(1)}
                   onBlur={() => focusInput(null)}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
                 <span
                   className="toggleShowPassword"
@@ -76,8 +99,8 @@ const Login = () => {
               </div>
 
               <div className="form-group">
-                <Button className="btn-blue btn-lg w-100 btn-big">
-                  <span className="text-capitalize">{'Sign In'}</span>
+                <Button type="submit" className="btn-blue btn-lg w-100 btn-big">
+                  <span className="text-capitalize">{"Sign In"}</span>
                 </Button>
               </div>
 
@@ -85,29 +108,8 @@ const Login = () => {
                 <Link to={"/forgot-password"} className="link">
                   Forgot Password
                 </Link>
-                <div className="d-flex align-items-center justify-content-center or mt-3 m-3">
-                  <span className="line"></span>
-                  <span className="txt">or</span>
-                  <span className="line"></span>
-                </div>
               </div>
-
-              <Button
-                variant="outlined"
-                className="w-100 btn-lg btn-big loginWithGoogle"
-              >
-                <img src={googleIcon} width="25px" /> &nbsp; Sign In with Google
-              </Button>
             </form>
-          </div>
-
-          <div className="wrapper mt-3 card border footer p-3">
-            <span className="text-center">
-              Don't have an account?
-              <Link to={"/signUp"} className="link color ms-2">
-                Register
-              </Link>
-            </span>
           </div>
         </div>
       </section>

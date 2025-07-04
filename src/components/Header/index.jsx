@@ -15,17 +15,17 @@ import Divider from "@mui/material/Divider";
 import PersonAdd from "@mui/icons-material/PersonAdd";
 import Logout from "@mui/icons-material/Logout";
 import { FaShieldAlt } from "react-icons/fa";
-import { MyContext } from "../../App";
 import UserAvatarImgComponent from "../userAvatarImg";
 import { IoMenu } from "react-icons/io5";
 import { notifications } from "../../constants";
+import { GlobalContext } from "../../context/globalProvider";
 
 const Header = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [isOpenNotificationDrop, setIsOpenNotificationDrop] = useState(null);
   const openMyAcc = Boolean(anchorEl);
   const openNotifications = Boolean(isOpenNotificationDrop);
-  const context = useContext(MyContext);
+  const context = useContext(GlobalContext);
   const navigate = useNavigate();
 
   const handleOpenMyAccDrop = (event) => {
