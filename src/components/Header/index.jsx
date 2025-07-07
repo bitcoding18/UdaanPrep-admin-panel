@@ -26,6 +26,7 @@ const Header = () => {
   const openMyAcc = Boolean(anchorEl);
   const openNotifications = Boolean(isOpenNotificationDrop);
   const context = useContext(GlobalContext);
+  const { adminData } = context;
   const navigate = useNavigate();
 
   const handleOpenMyAccDrop = (event) => {
@@ -171,8 +172,8 @@ const Header = () => {
                     </div>
 
                     <div className="userInfo res-hide">
-                      <h4>Rakesh Vanand</h4>
-                      <p className="mb-0">@rakeshv1108</p>
+                      <h4>{adminData?.name || 'Admin'}</h4>
+                      <p className="mb-0 text-lowercase">{adminData?.email || 'admin@gmail.com'}</p>
                     </div>
                   </Button>
 

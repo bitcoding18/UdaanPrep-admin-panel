@@ -5,7 +5,7 @@ import { BASE_URL } from '../constants';
 // Create Axios instance
 const apiClient = axios.create({
   baseURL: BASE_URL,
-  timeout: 10000,
+  timeout: 50000,
 });
 
 // Request Interceptor: Attach token and handle headers

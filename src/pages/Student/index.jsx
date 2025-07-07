@@ -9,16 +9,23 @@ import Pagination from "@mui/material/Pagination";
 import { FaEye } from "react-icons/fa";
 import { FaPencilAlt } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
-import { adminUsers, products } from "../../constants";
 import { Link } from "react-router-dom";
 import { GlobalContext } from "../../context/globalProvider";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import CustomSwitch from "../../components/CustomSwitch";
-import AdminFormModal from "./components/AdminFormModal";
-import { registerAdminAPI } from "../../services/api-services/auth";
 import toast from "react-hot-toast";
+import StudentFormModal from "./components/StudentFormModal";
+import {
+  deleteStudentAPI,
+  getAllStudentsAPI,
+  registerStudentAPI,
+  updateStudentDetailsAPI,
+} from "../../services/api-services/student-service";
+import { DATE_FORMAT } from "../../constants";
+import dayjs from "dayjs";
+import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal";
 
-const Admin = () => {
+const Student = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [names, setNames] = useState([]);
   const [emails, setEmails] = useState([]);
@@ -27,45 +34,101 @@ const Admin = () => {
   const context = useContext(GlobalContext);
   const [showModal, setShowModal] = useState(false);
   const [editData, setEditData] = useState(null);
+  const [arrStudents, setArrStudents] = useState([]);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [studentIdToDelete, setStudentIdToDelete] = useState(null);
+
+  useEffect(() => {
+    getStudentsList(1, 10);
+  }, []);
+
+  const getStudentsList = async (page, limit) => {
+    const response = await toast.promise(getAllStudentsAPI(page, limit), {
+      loading: "Getting student list...",
+      success: (res) => `Student list fetched successfully!`,
+      error: (err) => `${err.message || "Something went wrong."}`,
+    });
+    console.log("response", response);
+    setArrStudents(response?.data?.students || []);
+  };
 
   const handleToggle = (event) => {
     setStatus(event.target.checked);
     console.log("Switch is now:", event.target.checked);
   };
 
-  const handleAddAdmin = () => {
+  const handleAddStudent = () => {
     setEditData(null);
     setShowModal(true);
   };
 
-  const handleEditAdmin = (admin) => {
-    setEditData(admin);
+  const handleEditStudent = (student) => {
+    setEditData(student);
     setShowModal(true);
   };
 
+  const handleDeleteStudent = async (student) => {
+    setShowConfirm(true);
+    setStudentIdToDelete(student?.student_id);
+  };
+
   const handleSubmit = async (data) => {
+    const bodyReq = {
+      name: data?.name,
+      email: data?.email,
+      phone: data?.mobile || data?.phone || "",
+      password: data?.password,
+      birthdate: data?.birthdate || "",
+      status: data?.status ? "active" : "inactive",
+    };
+    let response = null;
     if (editData) {
-      console.log("Update Admin:", data);
-      // Call update API here
+      console.log("Update Student:", data);
+      console.log("Add Student:", data);
+      response = await toast.promise(
+        updateStudentDetailsAPI(data?.student_id, bodyReq),
+        {
+          loading: "Updating new student...",
+          success: (res) => `${data?.name} updated successfully!`,
+          error: (err) => `${err.message || "Something went wrong."}`,
+        }
+      );
+      console.log("student updated response", response);
     } else {
       console.log("Add Student:", data);
-      const bodyReq = {
-        name: data?.name,
-        email: data?.email,
-        phone: data?.mobile,
-        password: data?.password,
-        repeatPassword: data?.password
-      };
-      const response = await toast.promise(registerAdminAPI(bodyReq), {
-        loading: "Adding new admin...",
+      response = await toast.promise(registerStudentAPI(bodyReq), {
+        loading: "Adding new student...",
         success: (res) => `${data?.name} added successfully!`,
         error: (err) => `${err.message || "Something went wrong."}`,
       });
+    }
+    if (response?.statusCode === 200) {
+      getStudentsList(1, 10);
+    }
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!studentIdToDelete) {
+      toast.error("No student ID to delete.");
+      return;
+    }
+    try {
+      setShowConfirm(false);
+      const response = await toast.promise(
+        deleteStudentAPI(studentIdToDelete),
+        {
+          loading: "Deleting student...",
+          success: (res) => `Student deleted successfully!`,
+          error: (err) => `${err.message || "Something went wrong."}`,
+        }
+      );
       if (response?.statusCode === 200) {
-        // call get admin list api
-        console.log('call get admin list api');
-        
-      }      
+        setStudentIdToDelete(null);
+        getStudentsList(1, 10);
+      }
+    } catch (error) {
+      console.error("Error deleting student:", error);
+      toast.error(error.message || "Something went wrong.");
     }
   };
 
@@ -73,7 +136,7 @@ const Admin = () => {
     <>
       <div className="right-content w-100">
         <div className="card shadow border-0 w-100 flex-row p-4">
-          <h5 className="mb-0">Admin Management</h5>
+          <h5 className="mb-0">Students Management</h5>
           <Breadcrumbs aria-label="breadcrumb" className="ms-auto breadcrumbs">
             <StyledBreadcrumb
               component="a"
@@ -81,12 +144,16 @@ const Admin = () => {
               label="Dashboard"
               icon={<HomeIcon fontSize="small" />}
             />
-            <StyledBreadcrumb label="Admin Management" href="#" component="a" />
+            <StyledBreadcrumb
+              label="Students Management"
+              href="#"
+              component="a"
+            />
           </Breadcrumbs>
         </div>
 
         <div className="card shadow border-0 p-3 mt-4">
-          <h3 className="hd">Admin Users List</h3>
+          <h3 className="hd">Students Users List</h3>
 
           <div className="row cardFilters mt-3 d-flex justify-content-between">
             <div className="col-md-3 d-flex flex-row">
@@ -140,8 +207,8 @@ const Admin = () => {
             <div className="col-md-3 d-flex flex-column align-items-end">
               <div className="h-50"></div>
               <FormControl size="small" className="align-self-end">
-                <Button variant="contained" onClick={handleAddAdmin}>
-                  Add New Admin
+                <Button variant="contained" onClick={handleAddStudent}>
+                  Add New Student
                 </Button>
               </FormControl>
             </div>
@@ -155,6 +222,7 @@ const Admin = () => {
                   <th style={{ width: "300px" }}>NAME</th>
                   <th>EMAIL</th>
                   <th>MOBILE</th>
+                  <th>DATE OF BIRTH</th>
                   <th>REGISTRATION DATE</th>
                   <th>STATUS</th>
                   <th>ACTION</th>
@@ -162,13 +230,14 @@ const Admin = () => {
               </thead>
 
               <tbody>
-                {adminUsers.map((admin, index) => {
+                {arrStudents.map((student, index) => {
                   return (
-                    <AdminUserRow
-                      key={admin.id}
-                      admin={admin}
+                    <StudentUserRow
+                      key={student.id}
+                      student={student}
                       index={index}
-                      handleEditAdmin={handleEditAdmin}
+                      handleEditStudent={handleEditStudent}
+                      handleDeleteStudent={handleDeleteStudent}
                       onToggle={(id, newStatus) => {
                         console.log(
                           "Toggled ID:",
@@ -199,54 +268,75 @@ const Admin = () => {
         </div>
       </div>
 
-      <AdminFormModal
+      <StudentFormModal
         show={showModal}
         handleClose={() => setShowModal(false)}
         handleSubmit={handleSubmit}
         initialData={editData}
       />
+
+      <ConfirmationModal
+        isOpen={showConfirm}
+        onClose={() => setShowConfirm(false)}
+        onConfirm={handleConfirmDelete}
+      />
     </>
   );
 };
 
-export default Admin;
+export default Student;
 
-const AdminUserRow = React.memo(({ admin, index, onToggle, handleEditAdmin }) => {
-  const [status, setStatus] = useState(admin?.status); // initial value
+const StudentUserRow = React.memo(
+  ({ student, index, onToggle, handleEditStudent, handleDeleteStudent }) => {
+    const [status, setStatus] = useState(student?.status); // initial value
 
-  const handleToggle = (value) => {
-    setStatus(value);
-    onToggle(admin.id, value);
-  };
+    const handleToggle = (value) => {
+      setStatus(value);
+      onToggle(student.id, value);
+    };
 
-  return (
-    <tr className={index % 2 === 0 ? "even" : "odd"}>
-      <td>{admin?.id}</td>
-      <td>{admin?.name}</td>
-      <td>{admin?.email}</td>
-      <td>{admin?.phone}</td>
-      <td>{admin?.registrationDate}</td>
-      <td>
-        <CustomSwitch
-          checked={status}
-          onChange={(e, value) => handleToggle(value)}
-        />
-      </td>
-      <td>
-        <div className="actions d-flex align-items-center">
-          <Link to="/product/details">
-            <Button className="secondary" color={"secondary"}>
-              <FaEye />
+    return (
+      <tr className={index % 2 === 0 ? "even" : "odd"}>
+        <td>{student?.id}</td>
+        <td>{student?.name}</td>
+        <td>{student?.email}</td>
+        <td>{student?.phone}</td>
+        <td>
+          {student?.birthdate
+            ? dayjs(student?.birthdate).format(DATE_FORMAT)
+            : "-"}
+        </td>
+        <td>{student?.registrationDate}</td>
+        <td>
+          <CustomSwitch
+            checked={status}
+            onChange={(e, value) => handleToggle(value)}
+          />
+        </td>
+        <td>
+          <div className="actions d-flex align-items-center">
+            <Link to="/product/details">
+              <Button className="secondary" color={"secondary"}>
+                <FaEye />
+              </Button>
+            </Link>
+            <Button
+              className="success"
+              color="success"
+              onClick={() => handleEditStudent(student)}
+            >
+              <FaPencilAlt />
             </Button>
-          </Link>
-          <Button className="success" color="success" onClick={() => handleEditAdmin(admin)}>
-            <FaPencilAlt />
-          </Button>
-          <Button className="error" color="error">
-            <MdDelete />
-          </Button>
-        </div>
-      </td>
-    </tr>
-  );
-});
+            <Button
+              className="error"
+              color="error"
+              onClick={() => handleDeleteStudent(student)}
+            >
+              <MdDelete />
+            </Button>
+          </div>
+        </td>
+      </tr>
+    );
+  }
+);

@@ -13,6 +13,7 @@ import ProductDetails from "./pages/ProductDetails";
 import ProductUpload from "./pages/ProductUpload";
 import { GlobalContext } from "./context/globalProvider";
 import Admin from "./pages/Admin";
+import Student from "./pages/Student";
 
 const MyContext = createContext();
 
@@ -88,8 +89,9 @@ function App() {
             }`}
           >
             <Routes>
-              <Route path="/" exact={true} element={<Dashboard />} />
+              <Route path="/" exact={true} element={isLogin ? <Dashboard /> : <Login />} />
               <Route path="/admin" exact={true} element={<Admin />} />
+              <Route path="/student" exact={true} element={<Student />} />
               <Route path="/dashbaord" exact={true} element={<Dashboard />} />
               <Route path="/login" exact={true} element={<Login />} />
               <Route path="/signUp" exact={true} element={<SignUp />} />

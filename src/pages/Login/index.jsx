@@ -34,11 +34,13 @@ const Login = () => {
       password: password,
     };
     const response = await toast.promise(loginAPI(context, bodyReq), {
-      loading: "Sign in...",
-      success: <b>Signin successfully!</b>,
-      error: <b>Something went wrong.</b>,
+      loading: "Signing in...",
+      success: (data) => `Welcome, ${data?.data?.name || "Admin"}!`,
+      error: (err) => `${err.message || "Login failed."}`,
     });    
     if (response?.statusCode === 200) {
+      setEmail('');
+      setPassword('');
       navigate("/");
     }
   };
@@ -54,7 +56,7 @@ const Login = () => {
           </div>
 
           <div className="wrapper mt-3 card border">
-            <form onSubmit={onLoginBtnClick}>
+            <form onSubmit={onLoginBtnClick} autoComplete="on">
               <div
                 className={`form-group position-relative ${
                   inputIndex === 0 && "focus"
@@ -68,6 +70,7 @@ const Login = () => {
                   className="form-control"
                   placeholder="enter your email"
                   onFocus={() => focusInput(0)}
+                  autoComplete="email"
                   onBlur={() => focusInput(null)}
                   autoFocus
                   onChange={(e) => setEmail(e.target.value)}
@@ -88,6 +91,7 @@ const Login = () => {
                   placeholder="enter your password"
                   onFocus={() => focusInput(1)}
                   onBlur={() => focusInput(null)}
+                  autoComplete="password"
                   onChange={(e) => setPassword(e.target.value)}
                 />
                 <span

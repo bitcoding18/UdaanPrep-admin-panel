@@ -48,12 +48,25 @@ const Sidebar = () => {
               </Button>
             </Link>
           </li>
+           <li>
+            <Link to="/student">
+              <Button
+                className={`w-100 ${activeTab === 2 ? "active" : ""}`}
+                onClick={() => isOpenSubMenu(2)}
+              >
+                <span className="icon">
+                  <MdAdminPanelSettings />
+                </span>
+                Students Management
+              </Button>
+            </Link>
+          </li>
           <li>
             <Button
               className={`w-100 ${
-                activeTab === 2 && isToggleSubMenu === true ? "active" : ""
+                activeTab === 3 && isToggleSubMenu === true ? "active" : ""
               }`}
-              onClick={() => isOpenSubMenu(2)}
+              onClick={() => isOpenSubMenu(3)}
             >
               <span className="icon">
                 <FaProductHunt />
@@ -65,7 +78,7 @@ const Sidebar = () => {
             </Button>
             <div
               className={`submenuWrapper ${
-                activeTab === 2 && isToggleSubMenu === true
+                activeTab === 3 && isToggleSubMenu === true
                   ? "colapse"
                   : "colapsed"
               }`}

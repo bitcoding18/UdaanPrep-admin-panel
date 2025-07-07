@@ -1,0 +1,86 @@
+.confirmation-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.confirmation-modal {
+  background-color: var(--modal-bg);
+  color: var(--modal-text);
+  padding: 2rem;
+  border-radius: 16px;
+  text-align: center;
+  width: 400px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.modal-icon {
+  width: 200px;
+  margin-bottom: 0.5rem;
+}
+
+.modal-buttons {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.btn {
+  padding: 0.5rem 1.5rem;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.2s;
+}
+
+.btn-no {
+  background-color: var(--btn-no-bg);
+  color: var(--btn-no-text);
+}
+
+.btn-no:hover {
+  background-color: var(--btn-no-hover);
+}
+
+.btn-yes {
+  background-color: var(--btn-yes-bg);
+  color: var(--btn-yes-text);
+}
+
+.btn-yes:hover {
+  background-color: var(--btn-yes-hover);
+}
+
+/* Light Theme Variables */
+body.light {
+  --modal-bg: #ffffff;
+  --modal-text: #333333;
+  --btn-no-bg: #f2f2f2;
+  --btn-no-text: #333;
+  --btn-no-hover: #e0e0e0;
+  --btn-yes-bg: #e74c3c;
+  --btn-yes-text: #fff;
+  --btn-yes-hover: #c0392b;
+}
+
+/* Dark Theme Variables */
+body.dark {
+  --modal-bg: #2c2c2c;
+  --modal-text: #f1f1f1;
+  --btn-no-bg: #444;
+  --btn-no-text: #ddd;
+  --btn-no-hover: #555;
+  --btn-yes-bg: #e74c3c;
+  --btn-yes-text: #fff;
+  --btn-yes-hover: #c0392b;
+}

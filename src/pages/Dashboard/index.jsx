@@ -21,11 +21,10 @@ import { Link } from "react-router-dom";
 import { GlobalContext } from "../../context/globalProvider";
 
 export const data = [
-  ["Year", "Sales", "Expenses"],
-  ["2013", 1000, 400],
-  ["2014", 1170, 460],
-  ["2015", 660, 1120],
-  ["2016", 1030, 540],
+  ["PSC TYPE", "Interested Students", "Total Students"],
+  ["UPSC", 1000, 400],
+  ["GPSC", 1170, 460],
+  ["RSPC", 660, 1120],
 ];
 
 export const options = {
@@ -64,18 +63,35 @@ const Dashboard = () => {
               <DashboardBox
                 color={["#1da256", "#48d483"]}
                 icon={<FaUserCircle />}
+                title={"Total Students"}
                 grow={true}
               />
               <DashboardBox
                 color={["#c012e2", "#eb64fe"]}
+                title={"Courses"}
                 icon={<IoMdCart />}
+                grow={true}
               />
               <DashboardBox
                 color={["#2c78e5", "#60aff5"]}
+                title={"Packages"}
                 icon={<MdShoppingBag />}
+                grow={true}
               />
               <DashboardBox
                 color={["#e1950e", "#f3cd29"]}
+                title={"Test Series"}
+                icon={<GiStarsStack />}
+              />
+              <DashboardBox
+                color={["#2c78e5", "#60aff5"]}
+                title={"Packages"}
+                icon={<MdShoppingBag />}
+                grow={true}
+              />
+              <DashboardBox
+                color={["#e1950e", "#f3cd29"]}
+                title={"Test Series"}
                 icon={<GiStarsStack />}
               />
             </div>
@@ -128,7 +144,7 @@ const Dashboard = () => {
               <Chart
                 chartType="PieChart"
                 width="100%"
-                height="170px"
+                height="270px"
                 data={data}
                 options={options}
               />
@@ -136,7 +152,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="card shadow border-0 p-3 mt-4">
+        {/* <div className="card shadow border-0 p-3 mt-4">
           <h3 className="hd">Best Selling Products</h3>
 
           <div className="row cardFilters mt-3">
@@ -272,7 +288,7 @@ const Dashboard = () => {
               />
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </>
   );

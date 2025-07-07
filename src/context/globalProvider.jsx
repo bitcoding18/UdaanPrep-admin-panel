@@ -30,6 +30,7 @@ const GlobalProvider = ({ children }) => {
       setWindowWidth,
       openNav,
       isOpenNav,
+      setIsOpenNav,
       adminData,
       setAdminData
     }),

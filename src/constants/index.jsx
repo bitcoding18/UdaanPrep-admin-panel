@@ -252,6 +252,11 @@ const BASE_URL = "https://udaanprep.onrender.com/cms";
 
 const ApiEndPoints = {
   LOGIN_API: "/auth/login",
+  REGISTER_ADMIN_API: "/auth/register-admin",
+  REGISTER_STUDENT_API: "/user/add-student",
+  GET_STUDENTS_LIST_API: "/user/get-all-students",
+  UPDATE_STUDENT_API: "user/student",
+  DELETE_STUDENT_API: "user/student",
 };
 
 const adminUsers = [
@@ -262,6 +267,7 @@ const adminUsers = [
     phone: "9667747204",
     registrationDate: "03-09-2022 02:19 AM",
     status: false,
+    role: "super admin"
   },
   {
     id: 2,
@@ -270,6 +276,7 @@ const adminUsers = [
     phone: "9462272175",
     registrationDate: "02-06-2022 11:31 PM",
     status: false,
+    role: "admin"
   },
   {
     id: 3,
@@ -278,6 +285,7 @@ const adminUsers = [
     phone: "8003118123",
     registrationDate: "30-05-2022 11:11 PM",
     status: true,
+    role: "admin"
   },
   {
     id: 4,
@@ -286,6 +294,7 @@ const adminUsers = [
     phone: "9983408979",
     registrationDate: "17-04-2022 11:10 PM",
     status: false,
+    role: "super admin"
   },
   {
     id: 5,
@@ -294,6 +303,7 @@ const adminUsers = [
     phone: "8905674886",
     registrationDate: "07-03-2022 04:50 PM",
     status: true,
+    role: "admin"
   },
   {
     id: 6,
@@ -302,6 +312,7 @@ const adminUsers = [
     phone: "9784446987",
     registrationDate: "26-12-2021 01:35 PM",
     status: true,
+    role: "admin"
   },
   {
     id: 7,
@@ -310,6 +321,7 @@ const adminUsers = [
     phone: "1211121212",
     registrationDate: "26-12-2021 02:32 AM",
     status: false,
+    role: "admin"
   },
   {
     id: 8,
@@ -318,6 +330,7 @@ const adminUsers = [
     phone: "9624597111",
     registrationDate: "26-12-2021 02:19 AM",
     status: false,
+    role: "admin"
   },
   {
     id: 9,
@@ -326,8 +339,11 @@ const adminUsers = [
     phone: "9912424524",
     registrationDate: "12-12-2021 06:32 PM",
     status: false,
+    role: "admin"
   },
 ];
+
+const DATE_FORMAT = "DD/MM/YYYY";
 
 export {
   products,
@@ -336,5 +352,6 @@ export {
   arrProductRatings,
   BASE_URL,
   ApiEndPoints,
-  adminUsers
+  adminUsers,
+  DATE_FORMAT
 };
