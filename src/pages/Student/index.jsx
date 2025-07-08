@@ -26,6 +26,7 @@ import { DATE_FORMAT } from "../../constants";
 import dayjs from "dayjs";
 import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal";
 
+const LIMIT = 4;
 const Student = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [names, setNames] = useState([]);
@@ -38,9 +39,14 @@ const Student = () => {
   const [arrStudents, setArrStudents] = useState([]);
   const [showConfirm, setShowConfirm] = useState(false);
   const [studentIdToDelete, setStudentIdToDelete] = useState(null);
+  const [currentPageNumber, setCurrentPageNumber] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [limit, setLimit] = useState(LIMIT);
+  const [totalStudents, setTotalStudents] = useState(0);
+  const [studentsDataPerPage, setStudentsDataPerPage] = useState([]);
 
   useEffect(() => {
-    getStudentsList(1, 10);
+    getStudentsList(currentPageNumber, limit);
   }, []);
 
   const getStudentsList = async (page, limit) => {
@@ -51,11 +57,10 @@ const Student = () => {
     });
     console.log("response", response);
     setArrStudents(response?.data?.students || []);
-  };
-
-  const handleToggle = (event) => {
-    setStatus(event.target.checked);
-    console.log("Switch is now:", event.target.checked);
+    setTotalStudents(response?.data?.pagination?.total || 0);
+    setTotalPages(response?.data?.pagination?.totalPages);
+    setCurrentPageNumber(response?.data?.pagination?.page || 1);
+    setStudentsDataPerPage(response?.data?.students?.length || 0);
   };
 
   const handleAddStudent = () => {
@@ -85,7 +90,6 @@ const Student = () => {
     let response = null;
     if (editData) {
       console.log("Update Student:", data);
-      console.log("Add Student:", data);
       response = await toast.promise(
         updateStudentDetailsAPI(data?.student_id, bodyReq),
         {
@@ -104,7 +108,7 @@ const Student = () => {
       });
     }
     if (response?.statusCode === 200) {
-      getStudentsList(1, 10);
+      getStudentsList(currentPageNumber, limit);
     }
   };
 
@@ -125,7 +129,7 @@ const Student = () => {
       );
       if (response?.statusCode === 200) {
         setStudentIdToDelete(null);
-        getStudentsList(1, 10);
+        getStudentsList(currentPageNumber, limit);
       }
     } catch (error) {
       console.error("Error deleting student:", error);
@@ -270,14 +274,19 @@ const Student = () => {
 
             <div className="d-flex tableFooter">
               <p>
-                showing <b>12</b> of <b>60</b> results{" "}
+                showing <b>{studentsDataPerPage}</b> of <b>{totalStudents}</b> results{" "}
               </p>
               <Pagination
-                count={100}
+                count={Math.ceil(totalPages)}
                 color="primary"
                 className="pagination"
                 showFirstButton
                 showLastButton
+                page={currentPageNumber}
+                onChange={(e, value) => {
+                  setCurrentPageNumber(value);
+                  getStudentsList(value, limit);
+                }}
               />
             </div>
           </div>
