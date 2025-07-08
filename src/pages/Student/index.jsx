@@ -16,6 +16,7 @@ import CustomSwitch from "../../components/CustomSwitch";
 import toast from "react-hot-toast";
 import StudentFormModal from "./components/StudentFormModal";
 import {
+  changeStudentStatusAPI,
   deleteStudentAPI,
   getAllStudentsAPI,
   registerStudentAPI,
@@ -132,6 +133,28 @@ const Student = () => {
     }
   };
 
+  const onHandleStatusChange = async (studentId, newStatus) => {
+    console.log("Status changed for ID:", studentId, "New Status:", newStatus);
+    if (!studentId) {
+      toast.error("No student ID to found.");
+      return;
+    }
+    try {
+      setShowConfirm(false);
+      const response = await toast.promise(changeStudentStatusAPI(studentId), {
+        loading: "Updating student status...",
+        success: (res) => `Student status updated successfully!`,
+        error: (err) => `${err.message || "Something went wrong."}`,
+      });
+      if (response?.statusCode === 200) {
+        console.log("Status change response:", response);
+      }
+    } catch (error) {
+      console.error("Error deleting student:", error);
+      toast.error(error.message || "Something went wrong.");
+    }
+  };
+
   return (
     <>
       <div className="right-content w-100">
@@ -238,14 +261,7 @@ const Student = () => {
                       index={index}
                       handleEditStudent={handleEditStudent}
                       handleDeleteStudent={handleDeleteStudent}
-                      onToggle={(id, newStatus) => {
-                        console.log(
-                          "Toggled ID:",
-                          id,
-                          "New Status:",
-                          newStatus
-                        );
-                      }}
+                      onToggle={onHandleStatusChange}
                     />
                   );
                 })}
@@ -292,7 +308,7 @@ const StudentUserRow = React.memo(
 
     const handleToggle = (value) => {
       setStatus(value);
-      onToggle(student.id, value);
+      onToggle(student.student_id, value);
     };
 
     return (

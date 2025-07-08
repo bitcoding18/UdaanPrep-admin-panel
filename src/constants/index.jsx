@@ -257,6 +257,7 @@ const ApiEndPoints = {
   GET_STUDENTS_LIST_API: "/user/get-all-students",
   UPDATE_STUDENT_API: "user/student",
   DELETE_STUDENT_API: "user/student",
+  CHANGE_STUDENT_STATUS_API: "user/student"
 };
 
 const adminUsers = [

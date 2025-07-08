@@ -69,4 +69,27 @@ const deleteStudentAPI = async (studentId) => {
   }
 };
 
-export { registerStudentAPI, getAllStudentsAPI, updateStudentDetailsAPI, deleteStudentAPI };
+const changeStudentStatusAPI = async (studentId, newStatus) => {
+  const URL = `${ApiEndPoints.CHANGE_STUDENT_STATUS_API}/${studentId}/status`;
+  try {
+    const response = await apiService.patch(URL);
+    if (response?.data?.statusCode !== 200) {
+      throw new Error(response?.data?.message || "Invalid response");
+    }
+    if (response?.data?.statusCode === 200) {
+      return response.data;
+    }
+  } catch (error) {
+    const message =
+      error?.response?.data?.message || error?.message || "Unknown error";
+    throw new Error(message);
+  }
+};
+
+export {
+  registerStudentAPI,
+  getAllStudentsAPI,
+  updateStudentDetailsAPI,
+  deleteStudentAPI,
+  changeStudentStatusAPI,
+};
