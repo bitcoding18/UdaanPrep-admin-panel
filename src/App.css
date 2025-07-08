@@ -1462,3 +1462,11 @@ body.dark .form .form-group input, body.dark .form .form-group textarea {
   align-items: center;
 }
 
+.css-quhxjy-MuiInputBase-root-MuiOutlinedInput-root {
+  width: 100%;
+  height: 50px;
+  background-color: white;
+  border-radius: 5px;
+  font-size: 14px;
+  color: #333;
+}

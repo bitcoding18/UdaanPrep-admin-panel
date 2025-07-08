@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { useContext, useState } from "react";
 import { IoMdLogOut } from "react-icons/io";
 import { GlobalContext } from "../../context/globalProvider";
+import { SiCoursera } from "react-icons/si";
 
 const Sidebar = () => {
   const [activeTab, setActiveTab] = useState(0);
@@ -69,9 +70,9 @@ const Sidebar = () => {
               onClick={() => isOpenSubMenu(3)}
             >
               <span className="icon">
-                <FaProductHunt />
+                <SiCoursera />
               </span>
-              Products
+              Courses
               <span className="arrow">
                 <FaAngleRight />
               </span>
@@ -85,13 +86,19 @@ const Sidebar = () => {
             >
               <ul className="submenu">
                 <li>
-                  <Link to="/products"> Product List</Link>{" "}
+                  <Link to="/courses"> Course</Link>{" "}
                 </li>
                 <li>
-                  <Link to="/product/details"> Product View</Link>{" "}
+                  <Link to="/product/details"> Package</Link>{" "}
                 </li>
                 <li>
-                  <Link to="/product/upload"> Product Upload</Link>{" "}
+                  <Link to="/product/upload"> Combo Package</Link>{" "}
+                </li>
+                <li>
+                  <Link to="/product/details"> Test Series</Link>{" "}
+                </li>
+                <li>
+                  <Link to="/product/upload"> Manage Questions</Link>{" "}
                 </li>
               </ul>
             </div>

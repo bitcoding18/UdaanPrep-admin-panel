@@ -18,8 +18,8 @@ const registerStudentAPI = async (reqBody) => {
   }
 };
 
-const getAllStudentsAPI = async (page = 1, limit = 10) => {
-  const URL = `${ApiEndPoints.GET_STUDENTS_LIST_API}?page=${page}&limit=${limit}`;
+const getAllStudentsAPI = async (page = 1, limit = 10, search = "") => {
+  const URL = `${ApiEndPoints.GET_STUDENTS_LIST_API}?page=${page}&limit=${limit}&search=${search}`;
   try {
     const response = await apiService.get(URL);
     if (response?.data?.statusCode !== 200) {

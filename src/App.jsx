@@ -1,19 +1,13 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import "./responsive.css";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import Dashboard from "./pages/Dashboard";
+import { BrowserRouter } from "react-router-dom";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
-import { createContext, useContext, useState } from "react";
-import Login from "./pages/Login";
-import SignUp from "./pages/SignUp";
+import { createContext, useContext } from "react";
 import { useEffect } from "react";
-import ProductDetails from "./pages/ProductDetails";
-import ProductUpload from "./pages/ProductUpload";
 import { GlobalContext } from "./context/globalProvider";
-import Admin from "./pages/Admin";
-import Student from "./pages/Student";
+import PageRoutes from "./route";
 
 const MyContext = createContext();
 
@@ -63,11 +57,6 @@ function App() {
     };
   }, []);
 
-  const PrivateRoute = ({ children }) => {
-    const isLogin = localStorage.getItem("isLogin") === "true";
-    return isLogin ? children : <Navigate to="/login" />;
-  };
-
   return (
     <>
       <BrowserRouter>
@@ -95,40 +84,7 @@ function App() {
               isToggleSidebar === true ? "toggle" : ""
             }`}
           >
-            <Routes>
-              <Route
-                path="/"
-                exact={true}
-                element={
-                  <PrivateRoute>
-                    <Dashboard />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/dashboard"
-                element={
-                  <PrivateRoute>
-                    <Dashboard />
-                  </PrivateRoute>
-                }
-              />
-              <Route path="/admin" exact={true} element={<Admin />} />
-              <Route path="/student" exact={true} element={<Student />} />
-              <Route path="/login" exact={true} element={<Login />} />
-              <Route path="/signUp" exact={true} element={<SignUp />} />
-              {/* <Route path="/products" exact={true} element={<Products />} /> */}
-              <Route
-                path="/product/details"
-                exact={true}
-                element={<ProductDetails />}
-              />
-              <Route
-                path="/product/upload"
-                exact={true}
-                element={<ProductUpload />}
-              />
-            </Routes>
+            <PageRoutes />
           </div>
         </div>
       </BrowserRouter>

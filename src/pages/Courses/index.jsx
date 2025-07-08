@@ -1,17 +1,19 @@
-import { Breadcrumbs, IconButton, TextField } from "@mui/material";
+import { Breadcrumbs, Checkbox, ListItemText } from "@mui/material";
 import { StyledBreadcrumb } from "../../utils/breadcrumbUtils";
 import HomeIcon from "@mui/icons-material/Home";
+import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
+import { Select } from "@mui/material";
 import Pagination from "@mui/material/Pagination";
 import { FaEye } from "react-icons/fa";
 import { FaPencilAlt } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { Link } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import { GlobalContext } from "../../context/globalProvider";
+import React, { useContext, useEffect, useState } from "react";
 import CustomSwitch from "../../components/CustomSwitch";
 import toast from "react-hot-toast";
-import StudentFormModal from "./components/StudentFormModal";
 import {
   changeStudentStatusAPI,
   deleteStudentAPI,
@@ -22,10 +24,15 @@ import {
 import { DATE_FORMAT } from "../../constants";
 import dayjs from "dayjs";
 import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal";
-import { IoMdPersonAdd } from "react-icons/io";
 
 const LIMIT = 4;
-const Student = () => {
+const Courses = () => {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [names, setNames] = useState([]);
+  const [emails, setEmails] = useState([]);
+  const [mobiles, setMobiles] = useState([]);
+  const open = Boolean(anchorEl);
+  const context = useContext(GlobalContext);
   const [showModal, setShowModal] = useState(false);
   const [editData, setEditData] = useState(null);
   const [arrStudents, setArrStudents] = useState([]);
@@ -36,21 +43,18 @@ const Student = () => {
   const [limit, setLimit] = useState(LIMIT);
   const [totalStudents, setTotalStudents] = useState(0);
   const [studentsDataPerPage, setStudentsDataPerPage] = useState([]);
-  const [searchVal, setSearchVal] = useState("");
 
   useEffect(() => {
     getStudentsList(currentPageNumber, limit);
   }, []);
 
-  const getStudentsList = async (page, limit, searchValue = "") => {
-    const response = await toast.promise(
-      getAllStudentsAPI(page, limit, searchValue),
-      {
-        loading: "Getting student list...",
-        success: (res) => `Student list fetched successfully!`,
-        error: (err) => `${err.message || "Something went wrong."}`,
-      }
-    );
+  const getStudentsList = async (page, limit) => {
+    const response = await toast.promise(getAllStudentsAPI(page, limit), {
+      loading: "Getting student list...",
+      success: (res) => `Student list fetched successfully!`,
+      error: (err) => `${err.message || "Something went wrong."}`,
+    });
+    console.log("response", response);
     setArrStudents(response?.data?.students || []);
     setTotalStudents(response?.data?.pagination?.total || 0);
     setTotalPages(response?.data?.pagination?.totalPages);
@@ -133,6 +137,7 @@ const Student = () => {
   };
 
   const onHandleStatusChange = async (studentId, newStatus) => {
+    console.log("Status changed for ID:", studentId, "New Status:", newStatus);
     if (!studentId) {
       toast.error("No student ID to found.");
       return;
@@ -153,24 +158,11 @@ const Student = () => {
     }
   };
 
-  const onSearchValueSubmit = (e) => {
-    e.preventDefault();
-    const searchValue = e.target.value.trim();
-    if (searchValue !== "") {
-      setSearchVal(searchValue);
-      setCurrentPageNumber(1);
-      getStudentsList(1, limit, searchValue);
-    } else {
-      setSearchVal("");
-      getStudentsList(1, limit);
-    }
-  };
-
   return (
     <>
       <div className="right-content w-100">
         <div className="card shadow border-0 w-100 flex-row p-4">
-          <h5 className="mb-0">Students Management</h5>
+          <h5 className="mb-0">Course Management</h5>
           <Breadcrumbs aria-label="breadcrumb" className="ms-auto breadcrumbs">
             <StyledBreadcrumb
               component="a"
@@ -179,7 +171,7 @@ const Student = () => {
               icon={<HomeIcon fontSize="small" />}
             />
             <StyledBreadcrumb
-              label="Students Management"
+              label="Course Management"
               href="#"
               component="a"
             />
@@ -187,34 +179,54 @@ const Student = () => {
         </div>
 
         <div className="card shadow border-0 p-3 mt-4">
-          <h3 className="hd">Students Users List</h3>
+          <h3 className="hd">Courses List</h3>
 
-          <div className="row cardFilters mt-3 d-flex  justify-content-between">
-            <div className="col-md-5 d-flex flex-row">
+          <div className="row cardFilters mt-3 d-flex justify-content-between">
+            <div className="col-md-3 d-flex flex-row">
               <div className="col-md-10">
+                <h4>Name</h4>
                 <FormControl size="small" className="w-100">
-                  <TextField
-                    label="Search Student"
-                    slotProps={{
-                      input: {
-                        type: "search",
-                        onKeyDown: (e) => {
-                          if (e.key === "Enter") {
-                            onSearchValueSubmit(e);
-                          }
-                        },
-                      },
-                      endAdornment: {
-                        children: (
-                          <IconButton onClick={onSearchValueSubmit}>
-                            <MdDelete />
-                          </IconButton>
-                        ),
-                      },
-                    }}
-                    onBlur={(e) => onSearchValueSubmit(e)}
-                    className="search-input"
-                  />
+                  <Select
+                    multiple
+                    value={names}
+                    onChange={(e) => setNames(e.target.value)}
+                    renderValue={(selected) => selected.join(", ")}
+                    className="w-100"
+                  >
+                    {["Rakesh", "Akshay", "Vishal", "Aditya", "Bhavik"].map(
+                      (nameItem) => (
+                        <MenuItem key={nameItem} value={nameItem}>
+                          <Checkbox checked={names.indexOf(nameItem) > -1} />
+                          <ListItemText primary={nameItem} />
+                        </MenuItem>
+                      )
+                    )}
+                  </Select>
+                </FormControl>
+              </div>
+              <div className="col-md-12  ms-4">
+                <h4>Email</h4>
+                <FormControl size="small" className="w-100">
+                  <Select
+                    multiple
+                    value={emails}
+                    onChange={(e) => setEmails(e.target.value)}
+                    renderValue={(selected) => selected.join(", ")}
+                    className="w-100"
+                  >
+                    {[
+                      "rakesh@gmail.com",
+                      "akshay@gmail.com",
+                      "vishal@gmail.com",
+                      "aditya@gmail.com",
+                      "bhavik@gmail.com",
+                    ].map((emailItem) => (
+                      <MenuItem key={emailItem} value={emailItem}>
+                        <Checkbox checked={emails.indexOf(emailItem) > -1} />
+                        <ListItemText primary={emailItem} />
+                      </MenuItem>
+                    ))}
+                  </Select>
                 </FormControl>
               </div>
             </div>
@@ -222,7 +234,7 @@ const Student = () => {
               <div className="h-50"></div>
               <FormControl size="small" className="align-self-end">
                 <Button variant="contained" onClick={handleAddStudent}>
-                  <IoMdPersonAdd size={20} /> &nbsp; Add New Student
+                  Add New Student
                 </Button>
               </FormControl>
             </div>
@@ -246,7 +258,7 @@ const Student = () => {
               <tbody>
                 {arrStudents.map((student, index) => {
                   return (
-                    <StudentUserRow
+                    <CoursesRow
                       key={student.id}
                       student={student}
                       index={index}
@@ -273,20 +285,13 @@ const Student = () => {
                 page={currentPageNumber}
                 onChange={(e, value) => {
                   setCurrentPageNumber(value);
-                  getStudentsList(value, limit, searchVal);
+                  getStudentsList(value, limit);
                 }}
               />
             </div>
           </div>
         </div>
       </div>
-
-      <StudentFormModal
-        show={showModal}
-        handleClose={() => setShowModal(false)}
-        handleSubmit={handleSubmit}
-        initialData={editData}
-      />
 
       <ConfirmationModal
         isOpen={showConfirm}
@@ -297,9 +302,9 @@ const Student = () => {
   );
 };
 
-export default Student;
+export default Courses;
 
-const StudentUserRow = React.memo(
+const CoursesRow = React.memo(
   ({ student, index, onToggle, handleEditStudent, handleDeleteStudent }) => {
     const [status, setStatus] = useState(student?.status); // initial value
 
