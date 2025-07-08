@@ -1,7 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import "./responsive.css";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
@@ -52,6 +52,8 @@ function App() {
   }, [themeMode]);
 
   useEffect(() => {
+    const loginStatus = localStorage.getItem("isLogin");
+    setIsLogin(loginStatus === "true");
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
     };
@@ -60,6 +62,11 @@ function App() {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  const PrivateRoute = ({ children }) => {
+    const isLogin = localStorage.getItem("isLogin") === "true";
+    return isLogin ? children : <Navigate to="/login" />;
+  };
 
   return (
     <>
@@ -89,10 +96,25 @@ function App() {
             }`}
           >
             <Routes>
-              <Route path="/" exact={true} element={isLogin ? <Dashboard /> : <Login />} />
+              <Route
+                path="/"
+                exact={true}
+                element={
+                  <PrivateRoute>
+                    <Dashboard />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/dashboard"
+                element={
+                  <PrivateRoute>
+                    <Dashboard />
+                  </PrivateRoute>
+                }
+              />
               <Route path="/admin" exact={true} element={<Admin />} />
               <Route path="/student" exact={true} element={<Student />} />
-              <Route path="/dashbaord" exact={true} element={<Dashboard />} />
               <Route path="/login" exact={true} element={<Login />} />
               <Route path="/signUp" exact={true} element={<SignUp />} />
               {/* <Route path="/products" exact={true} element={<Products />} /> */}

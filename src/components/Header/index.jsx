@@ -51,6 +51,7 @@ const Header = () => {
     handleCloseMyAccDrop();
     context.setIsLogin(false);
     navigate("/login");
+    localStorage.removeItem("isLogin");
   };
 
   return (

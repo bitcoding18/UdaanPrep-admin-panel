@@ -42,6 +42,7 @@ const Login = () => {
       setEmail('');
       setPassword('');
       navigate("/");
+      localStorage.setItem("isLogin", "true");
     }
   };
 
