@@ -1,10 +1,8 @@
-import { Breadcrumbs, Checkbox, ListItemText } from "@mui/material";
+import { Breadcrumbs, IconButton, TextField } from "@mui/material";
 import { StyledBreadcrumb } from "../../utils/breadcrumbUtils";
 import HomeIcon from "@mui/icons-material/Home";
-import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
-import { Select } from "@mui/material";
 import Pagination from "@mui/material/Pagination";
 import { FaEye } from "react-icons/fa";
 import { FaPencilAlt } from "react-icons/fa";
@@ -17,49 +15,46 @@ import toast from "react-hot-toast";
 import {
   changeStudentStatusAPI,
   deleteStudentAPI,
-  getAllStudentsAPI,
+  getAllCoursesAPI,
   registerStudentAPI,
   updateStudentDetailsAPI,
-} from "../../services/api-services/student-service";
-import { DATE_FORMAT } from "../../constants";
+} from "../../services/api-services/course-service";
+import { DATE_FORMAT, DATE_TIME_FORMAT } from "../../constants";
 import dayjs from "dayjs";
 import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal";
+import { IoIosAddCircle } from "react-icons/io";
 
 const LIMIT = 4;
 const Courses = () => {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [names, setNames] = useState([]);
-  const [emails, setEmails] = useState([]);
-  const [mobiles, setMobiles] = useState([]);
-  const open = Boolean(anchorEl);
   const context = useContext(GlobalContext);
   const [showModal, setShowModal] = useState(false);
   const [editData, setEditData] = useState(null);
-  const [arrStudents, setArrStudents] = useState([]);
+  const [arrCourses, setArrCourses] = useState([]);
   const [showConfirm, setShowConfirm] = useState(false);
-  const [studentIdToDelete, setStudentIdToDelete] = useState(null);
+  const [courseIdToDelete, setCoursetIdToDelete] = useState(null);
   const [currentPageNumber, setCurrentPageNumber] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [limit, setLimit] = useState(LIMIT);
-  const [totalStudents, setTotalStudents] = useState(0);
-  const [studentsDataPerPage, setStudentsDataPerPage] = useState([]);
+  const [totalCourses, setTotalCourses] = useState(0);
+  const [coursesDataPerPage, setCoursesDataPerPage] = useState([]);
+  const [searchVal, setSearchVal] = useState("");
 
   useEffect(() => {
-    getStudentsList(currentPageNumber, limit);
+    getCourseList(currentPageNumber, limit);
   }, []);
 
-  const getStudentsList = async (page, limit) => {
-    const response = await toast.promise(getAllStudentsAPI(page, limit), {
-      loading: "Getting student list...",
-      success: (res) => `Student list fetched successfully!`,
+  const getCourseList = async (page, limit) => {
+    const response = await toast.promise(getAllCoursesAPI(page, limit), {
+      loading: "Getting course list...",
+      success: (res) => `Course list fetched successfully!`,
       error: (err) => `${err.message || "Something went wrong."}`,
     });
     console.log("response", response);
-    setArrStudents(response?.data?.students || []);
-    setTotalStudents(response?.data?.pagination?.total || 0);
-    setTotalPages(response?.data?.pagination?.totalPages);
-    setCurrentPageNumber(response?.data?.pagination?.page || 1);
-    setStudentsDataPerPage(response?.data?.students?.length || 0);
+    setArrCourses(response?.data?.docs || []);
+    setTotalCourses(response?.data?.totalDocs || 0);
+    setTotalPages(response?.data?.totalPages);
+    setCurrentPageNumber(response?.data?.page || 1);
+    setCoursesDataPerPage(response?.data?.docs?.length || 0);
   };
 
   const handleAddStudent = () => {
@@ -67,14 +62,14 @@ const Courses = () => {
     setShowModal(true);
   };
 
-  const handleEditStudent = (student) => {
+  const handleEditCourse = (student) => {
     setEditData(student);
     setShowModal(true);
   };
 
-  const handleDeleteStudent = async (student) => {
+  const handleDeleteCourse = async (student) => {
     setShowConfirm(true);
-    setStudentIdToDelete(student?.student_id);
+    setCoursetIdToDelete(student?.student_id);
   };
 
   const handleSubmit = async (data) => {
@@ -112,22 +107,19 @@ const Courses = () => {
   };
 
   const handleConfirmDelete = async () => {
-    if (!studentIdToDelete) {
+    if (!courseIdToDelete) {
       toast.error("No student ID to delete.");
       return;
     }
     try {
       setShowConfirm(false);
-      const response = await toast.promise(
-        deleteStudentAPI(studentIdToDelete),
-        {
-          loading: "Deleting student...",
-          success: (res) => `Student deleted successfully!`,
-          error: (err) => `${err.message || "Something went wrong."}`,
-        }
-      );
+      const response = await toast.promise(deleteStudentAPI(courseIdToDelete), {
+        loading: "Deleting student...",
+        success: (res) => `Student deleted successfully!`,
+        error: (err) => `${err.message || "Something went wrong."}`,
+      });
       if (response?.statusCode === 200) {
-        setStudentIdToDelete(null);
+        setCoursetIdToDelete(null);
         getStudentsList(currentPageNumber, limit);
       }
     } catch (error) {
@@ -158,6 +150,19 @@ const Courses = () => {
     }
   };
 
+  const onSearchValueSubmit = (e) => {
+    e.preventDefault();
+    const searchValue = e.target.value.trim();
+    if (searchValue !== "") {
+      setSearchVal(searchValue);
+      setCurrentPageNumber(1);
+      getStudentsList(1, limit, searchValue);
+    } else {
+      setSearchVal("");
+      getStudentsList(1, limit);
+    }
+  };
+
   return (
     <>
       <div className="right-content w-100">
@@ -182,59 +187,43 @@ const Courses = () => {
           <h3 className="hd">Courses List</h3>
 
           <div className="row cardFilters mt-3 d-flex justify-content-between">
-            <div className="col-md-3 d-flex flex-row">
+            <div className="col-md-5 d-flex flex-row">
               <div className="col-md-10">
-                <h4>Name</h4>
                 <FormControl size="small" className="w-100">
-                  <Select
-                    multiple
-                    value={names}
-                    onChange={(e) => setNames(e.target.value)}
-                    renderValue={(selected) => selected.join(", ")}
-                    className="w-100"
-                  >
-                    {["Rakesh", "Akshay", "Vishal", "Aditya", "Bhavik"].map(
-                      (nameItem) => (
-                        <MenuItem key={nameItem} value={nameItem}>
-                          <Checkbox checked={names.indexOf(nameItem) > -1} />
-                          <ListItemText primary={nameItem} />
-                        </MenuItem>
-                      )
-                    )}
-                  </Select>
-                </FormControl>
-              </div>
-              <div className="col-md-12  ms-4">
-                <h4>Email</h4>
-                <FormControl size="small" className="w-100">
-                  <Select
-                    multiple
-                    value={emails}
-                    onChange={(e) => setEmails(e.target.value)}
-                    renderValue={(selected) => selected.join(", ")}
-                    className="w-100"
-                  >
-                    {[
-                      "rakesh@gmail.com",
-                      "akshay@gmail.com",
-                      "vishal@gmail.com",
-                      "aditya@gmail.com",
-                      "bhavik@gmail.com",
-                    ].map((emailItem) => (
-                      <MenuItem key={emailItem} value={emailItem}>
-                        <Checkbox checked={emails.indexOf(emailItem) > -1} />
-                        <ListItemText primary={emailItem} />
-                      </MenuItem>
-                    ))}
-                  </Select>
+                  <TextField
+                    label="Search Course"
+                    slotProps={{
+                      input: {
+                        type: "search",
+                        onKeyDown: (e) => {
+                          if (e.key === "Enter") {
+                            onSearchValueSubmit(e);
+                          }
+                        },
+                      },
+                      endAdornment: {
+                        children: (
+                          <IconButton onClick={onSearchValueSubmit}>
+                            <MdDelete />
+                          </IconButton>
+                        ),
+                      },
+                    }}
+                    onBlur={(e) => onSearchValueSubmit(e)}
+                    className="search-input"
+                  />
                 </FormControl>
               </div>
             </div>
             <div className="col-md-3 d-flex flex-column align-items-end">
               <div className="h-50"></div>
               <FormControl size="small" className="align-self-end">
-                <Button variant="contained" onClick={handleAddStudent}>
-                  Add New Student
+                <Button
+                  variant="contained"
+                  onClick={handleAddStudent}
+                  className="d-flex justify-content-center align-items-center"
+                >
+                  <IoIosAddCircle size={20} /> &nbsp; Add New Course
                 </Button>
               </FormControl>
             </div>
@@ -245,25 +234,25 @@ const Courses = () => {
               <thead className="thead-dark">
                 <tr>
                   <th>ID</th>
-                  <th style={{ width: "300px" }}>NAME</th>
-                  <th>EMAIL</th>
-                  <th>MOBILE</th>
-                  <th>DATE OF BIRTH</th>
-                  <th>REGISTRATION DATE</th>
+                  <th style={{ width: "300px" }}>COURSE NAME</th>
+                  <th>FEATURED</th>
+                  <th>PRIORITY</th>
+                  <th>IMAGE</th>
+                  <th>CREATED DATE</th>
                   <th>STATUS</th>
                   <th>ACTION</th>
                 </tr>
               </thead>
 
               <tbody>
-                {arrStudents.map((student, index) => {
+                {arrCourses.map((course, index) => {
                   return (
                     <CoursesRow
-                      key={student.id}
-                      student={student}
+                      key={course._id}
+                      course={course}
                       index={index}
-                      handleEditStudent={handleEditStudent}
-                      handleDeleteStudent={handleDeleteStudent}
+                      handleEditCourse={handleEditCourse}
+                      handleDeleteCourse={handleDeleteCourse}
                       onToggle={onHandleStatusChange}
                     />
                   );
@@ -273,7 +262,7 @@ const Courses = () => {
 
             <div className="d-flex tableFooter">
               <p>
-                showing <b>{studentsDataPerPage}</b> of <b>{totalStudents}</b>{" "}
+                showing <b>{coursesDataPerPage}</b> of <b>{totalCourses}</b>{" "}
                 results{" "}
               </p>
               <Pagination
@@ -305,26 +294,28 @@ const Courses = () => {
 export default Courses;
 
 const CoursesRow = React.memo(
-  ({ student, index, onToggle, handleEditStudent, handleDeleteStudent }) => {
-    const [status, setStatus] = useState(student?.status); // initial value
+  ({ course, index, onToggle, handleEditCourse, handleDeleteCourse }) => {
+    const [status, setStatus] = useState(course?.status);
 
     const handleToggle = (value) => {
       setStatus(value);
-      onToggle(student.student_id, value);
+      onToggle(course._id, value);
     };
 
     return (
       <tr className={index % 2 === 0 ? "even" : "odd"}>
-        <td>{student?.id}</td>
-        <td>{student?.name}</td>
-        <td>{student?.email}</td>
-        <td>{student?.phone}</td>
+        <td>{index + 1}</td>
+        <td>{course?.name}</td>
+        <td>{`${course?.featured ? "Yes" : "No"}` || course?.featured}</td>
+        <td>{course?.priority}</td>
         <td>
-          {student?.birthdate
-            ? dayjs(student?.birthdate).format(DATE_FORMAT)
-            : "-"}
+          <img
+            alt="Course"
+            src={`https://drive.google.com/thumbnail?id=${course?.image_id}`}
+            className="course-image"
+          />
         </td>
-        <td>{student?.registrationDate}</td>
+        <td>{dayjs(course?.createdAt).format(DATE_TIME_FORMAT) || "-"}</td>
         <td>
           <CustomSwitch
             checked={status}
@@ -333,7 +324,7 @@ const CoursesRow = React.memo(
         </td>
         <td>
           <div className="actions d-flex align-items-center">
-            <Link to="/product/details">
+            <Link to="/course/details">
               <Button className="secondary" color={"secondary"}>
                 <FaEye />
               </Button>
@@ -341,14 +332,14 @@ const CoursesRow = React.memo(
             <Button
               className="success"
               color="success"
-              onClick={() => handleEditStudent(student)}
+              onClick={() => handleEditCourse(student)}
             >
               <FaPencilAlt />
             </Button>
             <Button
               className="error"
               color="error"
-              onClick={() => handleDeleteStudent(student)}
+              onClick={() => handleDeleteCourse(student)}
             >
               <MdDelete />
             </Button>

@@ -328,7 +328,7 @@ const StudentUserRow = React.memo(
         </td>
         <td>
           <div className="actions d-flex align-items-center">
-            <Link to="/product/details">
+            <Link to="/student/details">
               <Button className="secondary" color={"secondary"}>
                 <FaEye />
               </Button>

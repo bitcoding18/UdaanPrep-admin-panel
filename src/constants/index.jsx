@@ -257,7 +257,8 @@ const ApiEndPoints = {
   GET_STUDENTS_LIST_API: "/user/get-all-students",
   UPDATE_STUDENT_API: "user/student",
   DELETE_STUDENT_API: "user/student",
-  CHANGE_STUDENT_STATUS_API: "user/student"
+  CHANGE_STUDENT_STATUS_API: "user/student",
+  GET_COURSES_LIST_API: "/course/all",
 };
 
 const adminUsers = [
@@ -345,6 +346,7 @@ const adminUsers = [
 ];
 
 const DATE_FORMAT = "DD/MM/YYYY";
+const DATE_TIME_FORMAT = "DD/MM/YYYY, hh:mm A";
 
 export {
   products,
@@ -354,5 +356,6 @@ export {
   BASE_URL,
   ApiEndPoints,
   adminUsers,
-  DATE_FORMAT
+  DATE_FORMAT,
+  DATE_TIME_FORMAT
 };

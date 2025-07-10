@@ -870,7 +870,6 @@ body.dark .table tbody .actions button.error {
   color: white;
 }
 
-
 .table tbody .actions button svg {
   font-size: 32px !important;
 }
@@ -1372,7 +1371,8 @@ body.light .reviewForm textarea::-webkit-input-placeholder {
   font-size: 13px;
 }
 
-.form .form-group input, .form .form-group textarea {
+.form .form-group input,
+.form .form-group textarea {
   background: #fafafa;
   width: 100%;
   outline: none !important;
@@ -1388,7 +1388,8 @@ body.light .reviewForm textarea::-webkit-input-placeholder {
   padding-top: 15px;
 }
 
-body.dark .form .form-group input, body.dark .form .form-group textarea {
+body.dark .form .form-group input,
+body.dark .form .form-group textarea {
   background: rgba(27, 43, 77, 1) !important;
   color: rgba(255, 255, 255, 0.8) !important;
   border: 1px solid #253557 !important;
@@ -1414,7 +1415,7 @@ body.dark .form .form-group input, body.dark .form .form-group textarea {
   width: 150px;
   height: 150px;
   position: relative;
-  margin: 0; 
+  margin: 0;
 }
 
 .media-upload-preview {
@@ -1469,4 +1470,11 @@ body.dark .form .form-group input, body.dark .form .form-group textarea {
   border-radius: 5px;
   font-size: 14px;
   color: #333;
+}
+
+.course-image {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 20px;
 }
