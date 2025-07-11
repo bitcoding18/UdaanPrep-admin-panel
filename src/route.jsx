@@ -10,6 +10,9 @@ import ProductUpload from "./pages/ProductUpload";
 import Admin from "./pages/Admin";
 import Student from "./pages/Student";
 import Courses from "./pages/Courses";
+import CourseDetails from "./pages/CourseDetails";
+import PSC from "./pages/PSC";
+import PSCDetails from "./pages/PSCDetails";
 
 const PageRoutes = () => {
   const PrivateRoute = ({ children }) => {
@@ -52,7 +55,28 @@ const PageRoutes = () => {
           exact={true}
           element={<ProductUpload />}
         />
-        <Route path="/courses" exact={true} element={<Courses />} />
+        <Route path="/psc" exact={true} element={<PSC />} />
+        <Route
+          path="/psc/details"
+          exact={true}
+          element={<PSCDetails />}
+        />
+        <Route
+          path="/psc/details/:id"
+          exact={true}
+          element={<PSCDetails />}
+        />
+        <Route path="/course" exact={true} element={<Courses />} />
+        <Route
+          path="/course/details"
+          exact={true}
+          element={<CourseDetails />}
+        />
+        <Route
+          path="/course/details/:id"
+          exact={true}
+          element={<CourseDetails />}
+        />
       </Routes>
     </>
   );

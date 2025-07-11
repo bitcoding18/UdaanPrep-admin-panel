@@ -255,10 +255,16 @@ const ApiEndPoints = {
   REGISTER_ADMIN_API: "/auth/register-admin",
   REGISTER_STUDENT_API: "/user/add-student",
   GET_STUDENTS_LIST_API: "/user/get-all-students",
-  UPDATE_STUDENT_API: "user/student",
-  DELETE_STUDENT_API: "user/student",
-  CHANGE_STUDENT_STATUS_API: "user/student",
+  UPDATE_STUDENT_API: "/user/student",
+  DELETE_STUDENT_API: "/user/student",
+  CHANGE_STUDENT_STATUS_API: "/user/student",
   GET_COURSES_LIST_API: "/course/all",
+  CREATE_COURSE_API: "/course/create",
+  GET_PSC_LIST_API: "/psc/all",
+  CHANGE_COURSE_STATUS_API: "/course",
+  DELETE_COURSE_API: "/course",
+  CREATE_PSC_API: "/psc/create",
+  CHANGE_PSC_STATUS_API: "/psc"
 };
 
 const adminUsers = [

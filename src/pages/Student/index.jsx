@@ -292,6 +292,8 @@ const Student = () => {
         isOpen={showConfirm}
         onClose={() => setShowConfirm(false)}
         onConfirm={handleConfirmDelete}
+        title={'Are you sure?'}
+        message={'Do you really want to delete this student? This action cannot be undo.'}
       />
     </>
   );

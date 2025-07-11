@@ -84,9 +84,12 @@ const Sidebar = () => {
                   : "colapsed"
               }`}
             >
-              <ul className="submenu">
+              <ul className="submenu"> 
                 <li>
-                  <Link to="/courses"> Course</Link>{" "}
+                  <Link to="/psc"> PSC</Link>{" "}
+                </li>
+                <li>
+                  <Link to="/course"> Course</Link>{" "}
                 </li>
                 <li>
                   <Link to="/product/details"> Package</Link>{" "}

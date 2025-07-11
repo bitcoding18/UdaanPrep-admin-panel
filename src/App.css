@@ -1,4 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+/* Removed unsupported Sass variable $primary */
+@import "bootstrap";
+:root {
+  --primary: #0858f7;
+}
 
 * {
   margin: 0px;
@@ -607,6 +612,13 @@ body.dark .logoutWrapper .logoutBox {
 .right-content {
   padding: 90px 30px;
   padding-bottom: 10px;
+  background: #ebe9e9;
+}
+
+body.dark .right-content {
+  padding: 90px 30px;
+  padding-bottom: 10px;
+  background: #071739;
 }
 
 .dashboardBoxWrapper {
