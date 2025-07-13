@@ -22,6 +22,7 @@ import { DATE_TIME_FORMAT } from "../../constants";
 import dayjs from "dayjs";
 import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal";
 import { IoIosAddCircle } from "react-icons/io";
+import SearchBox from "../../components/SearchBox";
 
 const LIMIT = 4;
 const PSC = () => {
@@ -82,14 +83,11 @@ const PSC = () => {
     let response = null;
     if (editData) {
       console.log("Update PSC:", data);
-      response = await toast.promise(
-        updatePSCDetailsAPI(data?._id, bodyReq),
-        {
-          loading: "Updating new psc...",
-          success: (res) => `${data?.name} updated successfully!`,
-          error: (err) => `${err.message || "Something went wrong."}`,
-        }
-      );
+      response = await toast.promise(updatePSCDetailsAPI(data?._id, bodyReq), {
+        loading: "Updating new psc...",
+        success: (res) => `${data?.name} updated successfully!`,
+        error: (err) => `${err.message || "Something went wrong."}`,
+      });
       console.log("psc updated response", response);
     } else {
       console.log("Add Psc:", data);
@@ -173,11 +171,7 @@ const PSC = () => {
               label="Dashboard"
               icon={<HomeIcon fontSize="small" />}
             />
-            <StyledBreadcrumb
-              label="PSC Management"
-              href="#"
-              component="a"
-            />
+            <StyledBreadcrumb label="PSC Management" href="#" component="a" />
           </Breadcrumbs>
         </div>
 
@@ -187,30 +181,7 @@ const PSC = () => {
           <div className="row cardFilters mt-3 d-flex justify-content-between">
             <div className="col-md-5 d-flex flex-row">
               <div className="col-md-10">
-                <FormControl size="small" className="w-100">
-                  <TextField
-                    label="Search PSC"
-                    slotProps={{
-                      input: {
-                        type: "search",
-                        onKeyDown: (e) => {
-                          if (e.key === "Enter") {
-                            onSearchValueSubmit(e);
-                          }
-                        },
-                      },
-                      endAdornment: {
-                        children: (
-                          <IconButton onClick={onSearchValueSubmit}>
-                            <MdDelete />
-                          </IconButton>
-                        ),
-                      },
-                    }}
-                    onBlur={(e) => onSearchValueSubmit(e)}
-                    className="search-input"
-                  />
-                </FormControl>
+                <SearchBox onSubmit={(value) => onSearchValueSubmit(value)} />
               </div>
             </div>
             <div className="col-md-3 d-flex flex-column align-items-end">
@@ -260,8 +231,7 @@ const PSC = () => {
 
             <div className="d-flex tableFooter">
               <p>
-                showing <b>{PSCDataPerPage}</b> of <b>{totalPSC}</b>{" "}
-                results{" "}
+                showing <b>{PSCDataPerPage}</b> of <b>{totalPSC}</b> results{" "}
               </p>
               <Pagination
                 count={Math.ceil(totalPages)}
@@ -284,8 +254,10 @@ const PSC = () => {
         isOpen={showConfirm}
         onClose={() => setShowConfirm(false)}
         onConfirm={handleConfirmDelete}
-        title={'Are you sure?'}
-        message={'Do you really want to delete this PSC? This action cannot be undo.'}
+        title={"Are you sure?"}
+        message={
+          "Do you really want to delete this PSC? This action cannot be undo."
+        }
       />
     </>
   );

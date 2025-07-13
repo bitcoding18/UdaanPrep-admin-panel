@@ -8,7 +8,7 @@ import { FaEye } from "react-icons/fa";
 import { FaPencilAlt } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { Link } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import CustomSwitch from "../../components/CustomSwitch";
 import toast from "react-hot-toast";
 import StudentFormModal from "./components/StudentFormModal";
@@ -23,9 +23,13 @@ import { DATE_FORMAT } from "../../constants";
 import dayjs from "dayjs";
 import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal";
 import { IoMdPersonAdd } from "react-icons/io";
+import { GlobalContext } from "../../context/globalProvider";
+import SearchBox from "../../components/SearchBox";
 
 const LIMIT = 4;
 const Student = () => {
+  const context = useContext(GlobalContext);
+  const { themeMode } = context;
   const [showModal, setShowModal] = useState(false);
   const [editData, setEditData] = useState(null);
   const [arrStudents, setArrStudents] = useState([]);
@@ -153,9 +157,10 @@ const Student = () => {
     }
   };
 
-  const onSearchValueSubmit = (e) => {
-    e.preventDefault();
-    const searchValue = e.target.value.trim();
+  const onSearchValueSubmit = (value) => {
+    console.log("onSearchValueSubmit", value);
+
+    const searchValue = value.trim();
     if (searchValue !== "") {
       setSearchVal(searchValue);
       setCurrentPageNumber(1);
@@ -192,30 +197,7 @@ const Student = () => {
           <div className="row cardFilters mt-3 d-flex  justify-content-between">
             <div className="col-md-5 d-flex flex-row">
               <div className="col-md-10">
-                <FormControl size="small" className="w-100">
-                  <TextField
-                    label="Search Student"
-                    slotProps={{
-                      input: {
-                        type: "search",
-                        onKeyDown: (e) => {
-                          if (e.key === "Enter") {
-                            onSearchValueSubmit(e);
-                          }
-                        },
-                      },
-                      endAdornment: {
-                        children: (
-                          <IconButton onClick={onSearchValueSubmit}>
-                            <MdDelete />
-                          </IconButton>
-                        ),
-                      },
-                    }}
-                    onBlur={(e) => onSearchValueSubmit(e)}
-                    className="search-input"
-                  />
-                </FormControl>
+                <SearchBox onSubmit={(value) => onSearchValueSubmit(value)} />
               </div>
             </div>
             <div className="col-md-3 d-flex flex-column align-items-end">
@@ -292,8 +274,10 @@ const Student = () => {
         isOpen={showConfirm}
         onClose={() => setShowConfirm(false)}
         onConfirm={handleConfirmDelete}
-        title={'Are you sure?'}
-        message={'Do you really want to delete this student? This action cannot be undo.'}
+        title={"Are you sure?"}
+        message={
+          "Do you really want to delete this student? This action cannot be undo."
+        }
       />
     </>
   );

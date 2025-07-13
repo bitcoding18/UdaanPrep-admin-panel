@@ -22,6 +22,7 @@ import { DATE_TIME_FORMAT } from "../../constants";
 import dayjs from "dayjs";
 import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal";
 import { IoIosAddCircle } from "react-icons/io";
+import SearchBox from "../../components/SearchBox";
 
 const LIMIT = 4;
 const Courses = () => {
@@ -187,30 +188,7 @@ const Courses = () => {
           <div className="row cardFilters mt-3 d-flex justify-content-between">
             <div className="col-md-5 d-flex flex-row">
               <div className="col-md-10">
-                <FormControl size="small" className="w-100">
-                  <TextField
-                    label="Search Course"
-                    slotProps={{
-                      input: {
-                        type: "search",
-                        onKeyDown: (e) => {
-                          if (e.key === "Enter") {
-                            onSearchValueSubmit(e);
-                          }
-                        },
-                      },
-                      endAdornment: {
-                        children: (
-                          <IconButton onClick={onSearchValueSubmit}>
-                            <MdDelete />
-                          </IconButton>
-                        ),
-                      },
-                    }}
-                    onBlur={(e) => onSearchValueSubmit(e)}
-                    className="search-input"
-                  />
-                </FormControl>
+                <SearchBox onSubmit={(value) => onSearchValueSubmit(value)} />
               </div>
             </div>
             <div className="col-md-3 d-flex flex-column align-items-end">
@@ -284,8 +262,10 @@ const Courses = () => {
         isOpen={showConfirm}
         onClose={() => setShowConfirm(false)}
         onConfirm={handleConfirmDelete}
-        title={'Are you sure?'}
-        message={'Do you really want to delete this course? This action cannot be undo.'}
+        title={"Are you sure?"}
+        message={
+          "Do you really want to delete this course? This action cannot be undo."
+        }
       />
     </>
   );
