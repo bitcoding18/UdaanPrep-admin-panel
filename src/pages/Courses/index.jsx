@@ -71,40 +71,6 @@ const Courses = () => {
     setCoursetIdToDelete(course?._id);
   };
 
-  const handleSubmit = async (data) => {
-    const bodyReq = {
-      name: data?.name,
-      email: data?.email,
-      phone: data?.mobile || data?.phone || "",
-      password: data?.password,
-      birthdate: data?.birthdate || "",
-      status: data?.status ? "active" : "inactive",
-    };
-    let response = null;
-    if (editData) {
-      console.log("Update Student:", data);
-      response = await toast.promise(
-        updateStudentDetailsAPI(data?.student_id, bodyReq),
-        {
-          loading: "Updating new student...",
-          success: (res) => `${data?.name} updated successfully!`,
-          error: (err) => `${err.message || "Something went wrong."}`,
-        }
-      );
-      console.log("student updated response", response);
-    } else {
-      console.log("Add Student:", data);
-      response = await toast.promise(registerStudentAPI(bodyReq), {
-        loading: "Adding new student...",
-        success: (res) => `${data?.name} added successfully!`,
-        error: (err) => `${err.message || "Something went wrong."}`,
-      });
-    }
-    if (response?.statusCode === 200) {
-      getStudentsList(currentPageNumber, limit);
-    }
-  };
-
   const handleConfirmDelete = async () => {
     if (!courseIdToDelete) {
       toast.error("No course ID to delete.");
@@ -119,7 +85,7 @@ const Courses = () => {
       });
       if (response?.statusCode === 200) {
         setCoursetIdToDelete(null);
-        getCourseList(currentPageNumber, limit);
+        getCourseList(1, limit);
       }
     } catch (error) {
       console.error("Error deleting course:", error);

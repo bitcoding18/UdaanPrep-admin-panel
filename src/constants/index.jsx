@@ -264,92 +264,13 @@ const ApiEndPoints = {
   CHANGE_COURSE_STATUS_API: "/course",
   DELETE_COURSE_API: "/course",
   CREATE_PSC_API: "/psc/create",
-  CHANGE_PSC_STATUS_API: "/psc"
+  CHANGE_PSC_STATUS_API: "/psc",
+  UPDATE_PSC_API: "/psc",
+  DELETE_PSC_API: "/psc",
+  GET_PSC_DETAILS_API: "/psc",
+  GET_ADMINS_LIST_API: "/admin/get-all-admin",
+  CHANGE_ADMIN_STATUS_API: '/admin'
 };
-
-const adminUsers = [
-  {
-    id: 1,
-    name: "PRADEEP MISHRA",
-    email: "pm01664@gmail.com",
-    phone: "9667747204",
-    registrationDate: "03-09-2022 02:19 AM",
-    status: false,
-    role: "super admin"
-  },
-  {
-    id: 2,
-    name: "RAMESH SUTHAR",
-    email: "sutharrkt@gmail.com",
-    phone: "9462272175",
-    registrationDate: "02-06-2022 11:31 PM",
-    status: false,
-    role: "admin"
-  },
-  {
-    id: 3,
-    name: "lata kanwar",
-    email: "ghaneraogourav@gmail.com",
-    phone: "8003118123",
-    registrationDate: "30-05-2022 11:11 PM",
-    status: true,
-    role: "admin"
-  },
-  {
-    id: 4,
-    name: "Kulratna solanki",
-    email: "Kulratnasolanki89@gmail.com",
-    phone: "9983408979",
-    registrationDate: "17-04-2022 11:10 PM",
-    status: false,
-    role: "super admin"
-  },
-  {
-    id: 5,
-    name: "khushbu rajput",
-    email: "rajputkhushbu.rajput@gmail.com",
-    phone: "8905674886",
-    registrationDate: "07-03-2022 04:50 PM",
-    status: true,
-    role: "admin"
-  },
-  {
-    id: 6,
-    name: "Ramniwas saini",
-    email: "ramniwassolanki6@gmail.com",
-    phone: "9784446987",
-    registrationDate: "26-12-2021 01:35 PM",
-    status: true,
-    role: "admin"
-  },
-  {
-    id: 7,
-    name: "ads",
-    email: "csa@ggd.com",
-    phone: "1211121212",
-    registrationDate: "26-12-2021 02:32 AM",
-    status: false,
-    role: "admin"
-  },
-  {
-    id: 8,
-    name: "as",
-    email: "saasa@ggd.com",
-    phone: "9624597111",
-    registrationDate: "26-12-2021 02:19 AM",
-    status: false,
-    role: "admin"
-  },
-  {
-    id: 9,
-    name: "Rajat",
-    email: "rajat@ggd.com",
-    phone: "9912424524",
-    registrationDate: "12-12-2021 06:32 PM",
-    status: false,
-    role: "admin"
-  },
-];
 
 const DATE_FORMAT = "DD/MM/YYYY";
 const DATE_TIME_FORMAT = "DD/MM/YYYY, hh:mm A";
@@ -361,7 +282,6 @@ export {
   arrProductRatings,
   BASE_URL,
   ApiEndPoints,
-  adminUsers,
   DATE_FORMAT,
   DATE_TIME_FORMAT
 };

@@ -9,15 +9,19 @@ import Pagination from "@mui/material/Pagination";
 import { FaEye } from "react-icons/fa";
 import { FaPencilAlt } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
-import { adminUsers, products } from "../../constants";
 import { Link } from "react-router-dom";
 import { GlobalContext } from "../../context/globalProvider";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import CustomSwitch from "../../components/CustomSwitch";
 import AdminFormModal from "./components/AdminFormModal";
-import { registerAdminAPI } from "../../services/api-services/auth";
+import {
+  registerAdminAPI,
+  getAllAdminsAPI,
+} from "../../services/api-services/auth";
 import toast from "react-hot-toast";
+import SearchBox from "../../components/SearchBox";
 
+const LIMIT = 4;
 const Admin = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [names, setNames] = useState([]);
@@ -27,6 +31,35 @@ const Admin = () => {
   const context = useContext(GlobalContext);
   const [showModal, setShowModal] = useState(false);
   const [editData, setEditData] = useState(null);
+  const [arrAdmins, setArrAdmins] = useState([]);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [adminIdToDelete, setAdminIdToDelete] = useState(null);
+  const [currentPageNumber, setCurrentPageNumber] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [limit, setLimit] = useState(LIMIT);
+  const [totalAdmins, setTotalAdmins] = useState(0);
+  const [adminsDataPerPage, setAdminsDataPerPage] = useState([]);
+  const [searchVal, setSearchVal] = useState("");
+
+  useEffect(() => {
+    getAdminsList(currentPageNumber, limit);
+  }, []);
+
+  const getAdminsList = async (page, limit, searchValue = "") => {
+    const response = await toast.promise(
+      getAllAdminsAPI(page, limit, searchValue),
+      {
+        loading: "Getting admin list...",
+        success: (res) => `Admin list fetched successfully!`,
+        error: (err) => `${err.message || "Something went wrong."}`,
+      }
+    );
+    setArrAdmins(response?.data?.admins || []);
+    setTotalAdmins(response?.data?.pagination?.total || 0);
+    setTotalPages(response?.data?.pagination?.totalPages);
+    setCurrentPageNumber(response?.data?.pagination?.page || 1);
+    setAdminsDataPerPage(response?.data?.admins?.length || 0);
+  };
 
   const handleToggle = (event) => {
     setStatus(event.target.checked);
@@ -54,7 +87,7 @@ const Admin = () => {
         email: data?.email,
         phone: data?.mobile,
         password: data?.password,
-        repeatPassword: data?.password
+        repeatPassword: data?.password,
       };
       const response = await toast.promise(registerAdminAPI(bodyReq), {
         loading: "Adding new admin...",
@@ -63,9 +96,40 @@ const Admin = () => {
       });
       if (response?.statusCode === 200) {
         // call get admin list api
-        console.log('call get admin list api');
-        
-      }      
+        console.log("call get admin list api");
+      }
+    }
+  };
+
+  const onSearchValueSubmit = (value) => {
+    const searchValue = value.trim();
+    if (searchValue !== "") {
+      setSearchVal(searchValue);
+      setCurrentPageNumber(1);
+      getAdminsList(1, limit, searchValue);
+    } else {
+      setSearchVal("");
+      getAdminsList(1, limit);
+    }
+  };
+
+  const onHandleStatusChange = async (adminId, newStatus) => {
+    if (!adminId) {
+      toast.error("No admin ID to found.");
+      return;
+    }
+    try {
+      setShowConfirm(false);
+      const response = await toast.promise(changeAdminStatusAPI(adminId), {
+        loading: "Updating admin status...",
+        success: (res) => `Admin status updated successfully!`,
+        error: (err) => `${err.message || "Something went wrong."}`,
+      });
+      if (response?.statusCode === 200) {
+        console.log("Status change response:", response);
+      }
+    } catch (error) {
+      toast.error(error.message || "Something went wrong.");
     }
   };
 
@@ -89,52 +153,9 @@ const Admin = () => {
           <h3 className="hd">Admin Users List</h3>
 
           <div className="row cardFilters mt-3 d-flex justify-content-between">
-            <div className="col-md-3 d-flex flex-row">
+            <div className="col-md-7 d-flex flex-row">
               <div className="col-md-10">
-                <h4>Name</h4>
-                <FormControl size="small" className="w-100">
-                  <Select
-                    multiple
-                    value={names}
-                    onChange={(e) => setNames(e.target.value)}
-                    renderValue={(selected) => selected.join(", ")}
-                    className="w-100"
-                  >
-                    {["Rakesh", "Akshay", "Vishal", "Aditya", "Bhavik"].map(
-                      (nameItem) => (
-                        <MenuItem key={nameItem} value={nameItem}>
-                          <Checkbox checked={names.indexOf(nameItem) > -1} />
-                          <ListItemText primary={nameItem} />
-                        </MenuItem>
-                      )
-                    )}
-                  </Select>
-                </FormControl>
-              </div>
-              <div className="col-md-12  ms-4">
-                <h4>Email</h4>
-                <FormControl size="small" className="w-100">
-                  <Select
-                    multiple
-                    value={emails}
-                    onChange={(e) => setEmails(e.target.value)}
-                    renderValue={(selected) => selected.join(", ")}
-                    className="w-100"
-                  >
-                    {[
-                      "rakesh@gmail.com",
-                      "akshay@gmail.com",
-                      "vishal@gmail.com",
-                      "aditya@gmail.com",
-                      "bhavik@gmail.com",
-                    ].map((emailItem) => (
-                      <MenuItem key={emailItem} value={emailItem}>
-                        <Checkbox checked={emails.indexOf(emailItem) > -1} />
-                        <ListItemText primary={emailItem} />
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
+                <SearchBox onSubmit={(value) => onSearchValueSubmit(value)} />
               </div>
             </div>
             <div className="col-md-3 d-flex flex-column align-items-end">
@@ -151,7 +172,7 @@ const Admin = () => {
             <table className="table table-bordered v-align">
               <thead className="thead-dark">
                 <tr>
-                  <th>ID</th>
+                  <th>NO.</th>
                   <th style={{ width: "300px" }}>NAME</th>
                   <th>EMAIL</th>
                   <th>MOBILE</th>
@@ -162,21 +183,14 @@ const Admin = () => {
               </thead>
 
               <tbody>
-                {adminUsers.map((admin, index) => {
+                {arrAdmins.map((admin, index) => {
                   return (
                     <AdminUserRow
                       key={admin.id}
                       admin={admin}
                       index={index}
                       handleEditAdmin={handleEditAdmin}
-                      onToggle={(id, newStatus) => {
-                        console.log(
-                          "Toggled ID:",
-                          id,
-                          "New Status:",
-                          newStatus
-                        );
-                      }}
+                      onToggle={onHandleStatusChange}
                     />
                   );
                 })}
@@ -185,14 +199,20 @@ const Admin = () => {
 
             <div className="d-flex tableFooter">
               <p>
-                showing <b>12</b> of <b>60</b> results{" "}
+                showing <b>{adminsDataPerPage}</b> of <b>{totalAdmins}</b>{" "}
+                results{" "}
               </p>
               <Pagination
-                count={100}
+                count={Math.ceil(totalPages)}
                 color="primary"
                 className="pagination"
                 showFirstButton
                 showLastButton
+                page={currentPageNumber}
+                onChange={(e, value) => {
+                  setCurrentPageNumber(value);
+                  getAdminsList(value, limit, searchVal);
+                }}
               />
             </div>
           </div>
@@ -211,42 +231,48 @@ const Admin = () => {
 
 export default Admin;
 
-const AdminUserRow = React.memo(({ admin, index, onToggle, handleEditAdmin }) => {
-  const [status, setStatus] = useState(admin?.status); // initial value
+const AdminUserRow = React.memo(
+  ({ admin, index, onToggle, handleEditAdmin }) => {
+    const [status, setStatus] = useState(admin?.status); // initial value
 
-  const handleToggle = (value) => {
-    setStatus(value);
-    onToggle(admin.id, value);
-  };
+    const handleToggle = (value) => {
+      setStatus(value);
+      onToggle(admin.id, value);
+    };
 
-  return (
-    <tr className={index % 2 === 0 ? "even" : "odd"}>
-      <td>{admin?.id}</td>
-      <td>{admin?.name}</td>
-      <td>{admin?.email}</td>
-      <td>{admin?.phone}</td>
-      <td>{admin?.registrationDate}</td>
-      <td>
-        <CustomSwitch
-          checked={status}
-          onChange={(e, value) => handleToggle(value)}
-        />
-      </td>
-      <td>
-        <div className="actions d-flex align-items-center">
-          <Link to="/product/details">
-            <Button className="secondary" color={"secondary"}>
-              <FaEye />
+    return (
+      <tr className={index % 2 === 0 ? "even" : "odd"}>
+        <td>{index + 1}</td>
+        <td>{admin?.name}</td>
+        <td>{admin?.email}</td>
+        <td>{admin?.mobile}</td>
+        <td>{admin?.registration_date}</td>
+        <td>
+          <CustomSwitch
+            checked={status}
+            onChange={(e, value) => handleToggle(value)}
+          />
+        </td>
+        <td>
+          <div className="actions d-flex align-items-center">
+            <Link to="/product/details">
+              <Button className="secondary" color={"secondary"}>
+                <FaEye />
+              </Button>
+            </Link>
+            <Button
+              className="success"
+              color="success"
+              onClick={() => handleEditAdmin(admin)}
+            >
+              <FaPencilAlt />
             </Button>
-          </Link>
-          <Button className="success" color="success" onClick={() => handleEditAdmin(admin)}>
-            <FaPencilAlt />
-          </Button>
-          <Button className="error" color="error">
-            <MdDelete />
-          </Button>
-        </div>
-      </td>
-    </tr>
-  );
-});
+            <Button className="error" color="error">
+              <MdDelete />
+            </Button>
+          </div>
+        </td>
+      </tr>
+    );
+  }
+);

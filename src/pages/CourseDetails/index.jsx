@@ -58,13 +58,9 @@ const CourseDetails = () => {
       formData.append("image", file);
     }
     formData.append("psc_id", selectedPSC);
-    console.log("Form Data to be sent:");
-    for (let pair of formData.entries()) {
-      console.log(pair[0], pair[1]);
-    }
     const response = await toast.promise(createCourseAPI(formData), {
       loading: "Creating new course...",
-      success: (res) => `${data?.name} created successfully!`,
+      success: (res) => `${res?.data?.name} created successfully!`,
       error: (err) => `${err.message || "Something went wrong."}`,
     });
     console.log("course created response", response);

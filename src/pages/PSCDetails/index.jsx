@@ -28,10 +28,10 @@ const PSCDetails = () => {
   }, []);
 
   const fetchPSCDetails = async () => {
-    // const response = await getPSCDetails(pscId);
-    // if (response?.statusCode === 200) {
-    //   console.log("response", response);
-    // }
+    const response = await getPSCDetails(pscId);
+    if (response?.statusCode === 200) {
+      console.log("response", response);
+    }
   };
 
   const onSubmitBtnPressed = async () => {
@@ -45,16 +45,12 @@ const PSCDetails = () => {
       const file = base64ToFile(pscImg.data, pscImg.name);
       formData.append("image", file);
     }
-    console.log("Form Data to be sent:");
-    for (let pair of formData.entries()) {
-      console.log(pair[0], pair[1]);
-    }
     const response = await toast.promise(createPSCAPI(formData), {
       loading: "Creating new psc...",
-      success: (res) => `${data?.name} created successfully!`,
+      success: (res) => `${res?.data?.name} created successfully!`,
       error: (err) => `${err.message || "Something went wrong."}`,
     });
-    console.log("psc created response", response);
+    navigate("/psc");
   };
 
   const onCancelBtnPressed = () => {
@@ -142,7 +138,7 @@ const PSCDetails = () => {
                   <FileUpload
                     themeMode={themeMode ? "light" : "dark"}
                     setImg={setPSCImage}
-                    label={'PSC Photo'}
+                    label={"PSC Photo"}
                   />
                   <div className="d-flex w-50 justify-content-between gap-3 mt-3">
                     <Button

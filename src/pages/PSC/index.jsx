@@ -17,6 +17,7 @@ import {
   deletePSCAPI,
   getAllPSCAPI,
   updatePSCDetailsAPI,
+  createPSCAPI,
 } from "../../services/api-services/psc-service";
 import { DATE_TIME_FORMAT } from "../../constants";
 import dayjs from "dayjs";
@@ -71,37 +72,6 @@ const PSC = () => {
     setPSCIdToDelete(psc?._id);
   };
 
-  const handleSubmit = async (data) => {
-    const bodyReq = {
-      name: data?.name,
-      email: data?.email,
-      phone: data?.mobile || data?.phone || "",
-      password: data?.password,
-      birthdate: data?.birthdate || "",
-      status: data?.status ? "active" : "inactive",
-    };
-    let response = null;
-    if (editData) {
-      console.log("Update PSC:", data);
-      response = await toast.promise(updatePSCDetailsAPI(data?._id, bodyReq), {
-        loading: "Updating new psc...",
-        success: (res) => `${data?.name} updated successfully!`,
-        error: (err) => `${err.message || "Something went wrong."}`,
-      });
-      console.log("psc updated response", response);
-    } else {
-      console.log("Add Psc:", data);
-      response = await toast.promise(registerStudentAPI(bodyReq), {
-        loading: "Adding new psc...",
-        success: (res) => `${data?.name} added successfully!`,
-        error: (err) => `${err.message || "Something went wrong."}`,
-      });
-    }
-    if (response?.statusCode === 200) {
-      getPSCList(currentPageNumber, limit);
-    }
-  };
-
   const handleConfirmDelete = async () => {
     if (!pscIdToDelete) {
       toast.error("No psc ID to delete.");
@@ -116,7 +86,7 @@ const PSC = () => {
       });
       if (response?.statusCode === 200) {
         setPSCIdToDelete(null);
-        getPSCList(currentPageNumber, limit);
+        getPSCList(1, limit);
       }
     } catch (error) {
       console.error("Error deleting psc:", error);
@@ -152,10 +122,10 @@ const PSC = () => {
     if (searchValue !== "") {
       setSearchVal(searchValue);
       setCurrentPageNumber(1);
-      getStudentsList(1, limit, searchValue);
+      getPSCList(1, limit, searchValue);
     } else {
       setSearchVal("");
-      getStudentsList(1, limit);
+      getPSCList(1, limit);
     }
   };
 
@@ -242,7 +212,7 @@ const PSC = () => {
                 page={currentPageNumber}
                 onChange={(e, value) => {
                   setCurrentPageNumber(value);
-                  getStudentsList(value, limit);
+                  getPSCList(value, limit);
                 }}
               />
             </div>

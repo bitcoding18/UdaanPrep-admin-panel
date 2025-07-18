@@ -88,21 +88,18 @@ const Student = () => {
     };
     let response = null;
     if (editData) {
-      console.log("Update Student:", data);
       response = await toast.promise(
         updateStudentDetailsAPI(data?.student_id, bodyReq),
         {
           loading: "Updating new student...",
-          success: (res) => `${data?.name} updated successfully!`,
-          error: (err) => `${err.message || "Something went wrong."}`,
+          success: (res) => `${res?.data?.name} updated successfully!`,
+          error: (err) => `${err?.message || "Something went wrong."}`,
         }
       );
-      console.log("student updated response", response);
     } else {
-      console.log("Add Student:", data);
       response = await toast.promise(registerStudentAPI(bodyReq), {
         loading: "Adding new student...",
-        success: (res) => `${data?.name} added successfully!`,
+        success: (res) => `${res?.data?.name} added successfully!`,
         error: (err) => `${err.message || "Something went wrong."}`,
       });
     }
@@ -128,7 +125,7 @@ const Student = () => {
       );
       if (response?.statusCode === 200) {
         setStudentIdToDelete(null);
-        getStudentsList(currentPageNumber, limit);
+        getStudentsList(1, limit);
       }
     } catch (error) {
       console.error("Error deleting student:", error);
@@ -158,15 +155,11 @@ const Student = () => {
   };
 
   const onSearchValueSubmit = (value) => {
-    console.log("onSearchValueSubmit", value);
-
-    const searchValue = value.trim();
-    if (searchValue !== "") {
-      setSearchVal(searchValue);
+    setSearchVal(value);
+    if (value !== "") {
       setCurrentPageNumber(1);
-      getStudentsList(1, limit, searchValue);
+      getStudentsList(1, limit, value);
     } else {
-      setSearchVal("");
       getStudentsList(1, limit);
     }
   };
@@ -195,9 +188,9 @@ const Student = () => {
           <h3 className="hd">Students Users List</h3>
 
           <div className="row cardFilters mt-3 d-flex  justify-content-between">
-            <div className="col-md-5 d-flex flex-row">
+            <div className="col-md-7 d-flex flex-row">
               <div className="col-md-10">
-                <SearchBox onSubmit={(value) => onSearchValueSubmit(value)} />
+                <SearchBox onSubmit={onSearchValueSubmit} />
               </div>
             </div>
             <div className="col-md-3 d-flex flex-column align-items-end">

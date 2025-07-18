@@ -39,4 +39,39 @@ const registerAdminAPI = async (reqBody) => {
   }
 };
 
-export { loginAPI, registerAdminAPI };
+const getAllAdminsAPI = async (page = 1, limit = 10, search = "") => {
+  const URL = `${ApiEndPoints.GET_ADMINS_LIST_API}?page=${page}&limit=${limit}&search=${search}`;
+  try {
+    const response = await apiService.get(URL);
+    if (response?.data?.statusCode !== 200) {
+      throw new Error(response?.data?.message || "Invalid response");
+    }
+    if (response?.data?.statusCode === 200) {
+      return response.data;
+    }
+  } catch (error) {
+    const message =
+      error?.response?.data?.message || error?.message || "Unknown error";
+    throw new Error(message);
+  }
+};
+
+const changeAdminStatusAPI = async (adminId) => {
+  const URL = `${ApiEndPoints.CHANGE_ADMIN_STATUS_API}/${adminId}/status`;
+  try {
+    const response = await apiService.patch(URL);
+    if (response?.data?.statusCode !== 200) {
+      throw new Error(response?.data?.message || "Invalid response");
+    }
+    if (response?.data?.statusCode === 200) {
+      return response.data;
+    }
+  } catch (error) {
+    const message =
+      error?.response?.data?.message || error?.message || "Unknown error";
+    throw new Error(message);
+  }
+};
+
+
+export { loginAPI, registerAdminAPI, getAllAdminsAPI, changeAdminStatusAPI };
