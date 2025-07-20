@@ -19,11 +19,12 @@ import {
   updatePSCDetailsAPI,
   createPSCAPI,
 } from "../../services/api-services/psc-service";
-import { DATE_TIME_FORMAT } from "../../constants";
+import { DATE_TIME_FORMAT, FALLBACK_IMAGE_URL } from "../../constants";
 import dayjs from "dayjs";
 import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal";
 import { IoIosAddCircle } from "react-icons/io";
 import SearchBox from "../../components/SearchBox";
+import Image from "../../components/Image";
 
 const LIMIT = 4;
 const PSC = () => {
@@ -251,11 +252,7 @@ const PSCRow = React.memo(
         <td>{`${psc?.featured ? "Yes" : "No"}` || psc?.featured}</td>
         <td>{psc?.priority}</td>
         <td>
-          <img
-            alt="PSC"
-            src={`https://drive.google.com/thumbnail?id=${psc?.image_id}`}
-            className="course-image"
-          />
+          <Image fileId={psc?.image_id} alt={"PSC"} className="psc-image" fallbackImage={FALLBACK_IMAGE_URL} />
         </td>
         <td>{dayjs(psc?.createdAt).format(DATE_TIME_FORMAT) || "-"}</td>
         <td>

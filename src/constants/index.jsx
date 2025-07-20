@@ -269,11 +269,14 @@ const ApiEndPoints = {
   DELETE_PSC_API: "/psc",
   GET_PSC_DETAILS_API: "/psc",
   GET_ADMINS_LIST_API: "/admin/get-all-admin",
-  CHANGE_ADMIN_STATUS_API: '/admin'
+  CHANGE_ADMIN_STATUS_API: '/admin',
+  GET_IMAGE_BY_ID: "/image/get-image-by-id",
 };
 
 const DATE_FORMAT = "DD/MM/YYYY";
 const DATE_TIME_FORMAT = "DD/MM/YYYY, hh:mm A";
+
+const FALLBACK_IMAGE_URL = `${import.meta.env.VITE_PUBLIC_URL + '/img/course_placeholder.svg'}`;
 
 export {
   products,
@@ -283,5 +286,6 @@ export {
   BASE_URL,
   ApiEndPoints,
   DATE_FORMAT,
-  DATE_TIME_FORMAT
+  DATE_TIME_FORMAT,
+  FALLBACK_IMAGE_URL,
 };
