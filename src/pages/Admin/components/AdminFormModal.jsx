@@ -1,5 +1,13 @@
 import { useState, useEffect } from "react";
-import { Modal, Box, Button, TextField, MenuItem, IconButton, InputAdornment } from "@mui/material";
+import {
+  Modal,
+  Box,
+  Button,
+  TextField,
+  MenuItem,
+  IconButton,
+  InputAdornment,
+} from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const style = {
@@ -15,7 +23,13 @@ const style = {
   p: 4,
 };
 
-const AdminFormModal = ({ show, handleClose, handleSubmit, initialData = null }) => {
+const AdminFormModal = ({
+  show,
+  handleClose,
+  handleSubmit,
+  initialData = null,
+  isFrom = "add",
+}) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -23,12 +37,12 @@ const AdminFormModal = ({ show, handleClose, handleSubmit, initialData = null })
     password: "",
     role: "admin",
   });
-  
+
   const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     if (initialData) {
-      setFormData({...initialData, mobile: initialData?.phone});
+      setFormData({ ...initialData, mobile: initialData?.phone });
     } else {
       setFormData({
         name: "",
@@ -57,10 +71,21 @@ const AdminFormModal = ({ show, handleClose, handleSubmit, initialData = null })
     handleClose();
   };
 
+  const manageModalTitle = () => {
+    switch (isFrom) {
+      case "show":
+        return "Admin Details";
+      case "edit":
+        return "Edit Admin";
+      default:
+        return "Add New Admin";
+    }
+  };
+
   return (
     <Modal open={show} onClose={handleClose}>
       <Box sx={style}>
-        <h5 className="mb-4">{initialData ? "Edit Admin" : "Add New Admin"}</h5>
+        <h5 className="mb-4">{manageModalTitle()}</h5>
         <form onSubmit={onSubmit}>
           <div className="mb-3">
             <TextField
@@ -134,11 +159,13 @@ const AdminFormModal = ({ show, handleClose, handleSubmit, initialData = null })
 
           <div className="d-flex justify-content-end">
             <Button variant="outlined" onClick={handleClose} className="me-2">
-              Cancel
+              {isFrom !== "show" ? "Cancel" : "Close"}
             </Button>
-            <Button type="submit" variant="contained">
-              {initialData ? "Update Admin" : "Add Admin"}
-            </Button>
+            {isFrom !== "show" && (
+              <Button type="submit" variant="contained">
+                {initialData ? "Update Admin" : "Add Admin"}
+              </Button>
+            )}
           </div>
         </form>
       </Box>

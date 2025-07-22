@@ -271,6 +271,7 @@ const ApiEndPoints = {
   GET_ADMINS_LIST_API: "/admin/get-all-admin",
   CHANGE_ADMIN_STATUS_API: '/admin',
   GET_IMAGE_BY_ID: "/image/get-image-by-id",
+  DELETE_ADMIN_ACCOUNT_API: "/admin/delete-admin",
 };
 
 const DATE_FORMAT = "DD/MM/YYYY";

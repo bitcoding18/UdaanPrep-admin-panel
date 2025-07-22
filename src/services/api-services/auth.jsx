@@ -73,5 +73,27 @@ const changeAdminStatusAPI = async (adminId) => {
   }
 };
 
+const deleteAdminAccountAPI = async (adminId) => {
+  const URL = `${ApiEndPoints.DELETE_ADMIN_ACCOUNT_API}/${adminId}`;
+  try {
+    const response = await apiService.delete(URL);
+    if (response?.data?.statusCode !== 200) {
+      throw new Error(response?.data?.message || "Invalid response");
+    }
+    if (response?.data?.statusCode === 200) {
+      return response.data;
+    }
+  } catch (error) {
+    const message =
+      error?.response?.data?.message || error?.message || "Unknown error";
+    throw new Error(message);
+  }
+};
 
-export { loginAPI, registerAdminAPI, getAllAdminsAPI, changeAdminStatusAPI };
+export {
+  loginAPI,
+  registerAdminAPI,
+  getAllAdminsAPI,
+  changeAdminStatusAPI,
+  deleteAdminAccountAPI,
+};

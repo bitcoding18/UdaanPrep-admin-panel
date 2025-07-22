@@ -17,6 +17,8 @@ import AdminFormModal from "./components/AdminFormModal";
 import {
   registerAdminAPI,
   getAllAdminsAPI,
+  changeAdminStatusAPI,
+  deleteAdminAccountAPI,
 } from "../../services/api-services/auth";
 import toast from "react-hot-toast";
 import SearchBox from "../../components/SearchBox";
@@ -40,6 +42,7 @@ const Admin = () => {
   const [totalAdmins, setTotalAdmins] = useState(0);
   const [adminsDataPerPage, setAdminsDataPerPage] = useState([]);
   const [searchVal, setSearchVal] = useState("");
+  const [isFrom, setIsFrom] = useState("");
 
   useEffect(() => {
     getAdminsList(currentPageNumber, limit);
@@ -61,17 +64,20 @@ const Admin = () => {
     setAdminsDataPerPage(response?.data?.admins?.length || 0);
   };
 
-  const handleToggle = (event) => {
-    setStatus(event.target.checked);
-    console.log("Switch is now:", event.target.checked);
-  };
-
   const handleAddAdmin = () => {
+    setIsFrom("add");
     setEditData(null);
     setShowModal(true);
   };
 
   const handleEditAdmin = (admin) => {
+    setIsFrom("edit");
+    setEditData(admin);
+    setShowModal(true);
+  };
+
+  const handleShowAdmin = (admin) => {
+    setIsFrom("show");
     setEditData(admin);
     setShowModal(true);
   };
@@ -85,9 +91,10 @@ const Admin = () => {
       const bodyReq = {
         name: data?.name,
         email: data?.email,
-        phone: data?.mobile,
+        mobile: data?.mobile,
         password: data?.password,
         repeatPassword: data?.password,
+        admin_type: data?.role,
       };
       const response = await toast.promise(registerAdminAPI(bodyReq), {
         loading: "Adding new admin...",
@@ -95,9 +102,29 @@ const Admin = () => {
         error: (err) => `${err.message || "Something went wrong."}`,
       });
       if (response?.statusCode === 200) {
-        // call get admin list api
-        console.log("call get admin list api");
+        getAdminsList(1, limit);
       }
+    }
+  };
+
+  const deleteAdminAccount = async (adminId) => {
+    if (!adminId) {
+      toast.error("No admin ID to found.");
+      return;
+    }
+    try {
+      setShowConfirm(false);
+      const response = await toast.promise(deleteAdminAccountAPI(adminId), {
+        loading: "Deleting admin...",
+        success: (res) => `Admin deleted successfully!`,
+        error: (err) => `${err.message || "Something went wrong."}`,
+      });
+      if (response?.statusCode === 200) {
+        console.log("Admin delete response:", response);
+        getAdminsList(1, limit);
+      }
+    } catch (error) {
+      toast.error(error.message || "Something went wrong.");
     }
   };
 
@@ -172,7 +199,7 @@ const Admin = () => {
             <table className="table table-bordered v-align">
               <thead className="thead-dark">
                 <tr>
-                  <th>NO.</th>
+                  <th>ID</th>
                   <th style={{ width: "300px" }}>NAME</th>
                   <th>EMAIL</th>
                   <th>MOBILE</th>
@@ -191,6 +218,8 @@ const Admin = () => {
                       index={index}
                       handleEditAdmin={handleEditAdmin}
                       onToggle={onHandleStatusChange}
+                      handleShowAdmin={handleShowAdmin}
+                      deleteAdminAccount={deleteAdminAccount}
                     />
                   );
                 })}
@@ -224,6 +253,7 @@ const Admin = () => {
         handleClose={() => setShowModal(false)}
         handleSubmit={handleSubmit}
         initialData={editData}
+        isFrom={isFrom}
       />
     </>
   );
@@ -232,7 +262,14 @@ const Admin = () => {
 export default Admin;
 
 const AdminUserRow = React.memo(
-  ({ admin, index, onToggle, handleEditAdmin }) => {
+  ({
+    admin,
+    index,
+    onToggle,
+    handleEditAdmin,
+    handleShowAdmin,
+    deleteAdminAccount,
+  }) => {
     const [status, setStatus] = useState(admin?.status); // initial value
 
     const handleToggle = (value) => {
@@ -242,7 +279,7 @@ const AdminUserRow = React.memo(
 
     return (
       <tr className={index % 2 === 0 ? "even" : "odd"}>
-        <td>{index + 1}</td>
+        <td>{admin?.id}</td>
         <td>{admin?.name}</td>
         <td>{admin?.email}</td>
         <td>{admin?.mobile}</td>
@@ -255,11 +292,13 @@ const AdminUserRow = React.memo(
         </td>
         <td>
           <div className="actions d-flex align-items-center">
-            <Link to="/product/details">
-              <Button className="secondary" color={"secondary"}>
-                <FaEye />
-              </Button>
-            </Link>
+            <Button
+              className="secondary"
+              color={"secondary"}
+              onClick={() => handleShowAdmin(admin)}
+            >
+              <FaEye />
+            </Button>
             <Button
               className="success"
               color="success"
@@ -267,7 +306,11 @@ const AdminUserRow = React.memo(
             >
               <FaPencilAlt />
             </Button>
-            <Button className="error" color="error">
+            <Button
+              className="error"
+              color="error"
+              onClick={() => deleteAdminAccount(admin?.id)}
+            >
               <MdDelete />
             </Button>
           </div>
