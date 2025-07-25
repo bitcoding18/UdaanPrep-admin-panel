@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 import { createCourseAPI } from "../../services/api-services/course-service";
 import { base64ToFile } from "../../utils/commonFunctions";
 import { getAllPSCAPI } from "../../services/api-services/psc-service";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 const CourseDetails = () => {
   const context = useContext(GlobalContext);
@@ -25,17 +25,38 @@ const CourseDetails = () => {
   const params = useParams();
   const courseId = params?.id || null;
   const navigate = useNavigate();
+  const location = useLocation();
+  const { data, isFrom } = location.state || {};
 
   useEffect(() => {
     getPSCList();
-    fetchCourseDetails();
+    if (!data) {
+      fetchCourseDetails();
+    } else {
+      console.log("dadf", data);
+
+      setName(data?.name);
+      setDescription(data?.description);
+      setStatus(data?.is_active ? "Yes" : "No");
+      setFeatured(data?.featured ? "Yes" : "No");
+      setPriority(data?.priority);
+      setCourseImg({
+        data: `https://drive.google.com/thumbnail?id=${data?.image_id}`,
+        name: data?.name,
+      });
+    }
   }, []);
 
   const getPSCList = async () => {
     const response = await getAllPSCAPI();
     console.log("response", response);
-    if (response?.data?.docs?.length > 0) {
-      setArrPSCList(response?.data?.docs || []);
+    const pscArray = response?.data?.docs || [];
+    if (pscArray?.length > 0) {
+      setArrPSCList(pscArray || []);
+      if (data) {
+        const selectedPSC = pscArray?.find((psc) => psc?.id === data?.psc_id);
+        setSelectedPSC(selectedPSC);
+      }
     }
   };
 
@@ -172,7 +193,8 @@ const CourseDetails = () => {
                   <FileUpload
                     themeMode={themeMode ? "light" : "dark"}
                     setImg={setCourseImg}
-                    label={'Course Photo'}
+                    defaultImg={courseImg}
+                    label={"Course Photo"}
                   />
                   <div className="d-flex w-50 justify-content-between gap-3 mt-3">
                     <Button

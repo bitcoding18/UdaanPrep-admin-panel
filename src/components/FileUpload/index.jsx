@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { ThemeProvider, createTheme, CssBaseline, Avatar } from "@mui/material";
 
-const FileUpload = ({ themeMode = "light", setImg, label }) => {
-  const [image, setImage] = useState(null);
+const FileUpload = ({ themeMode = "light", setImg, label, defaultImage }) => {
+  const [image, setImage] = useState(defaultImage ? defaultImage : null);
 
   useEffect(() => {
     if (image) {

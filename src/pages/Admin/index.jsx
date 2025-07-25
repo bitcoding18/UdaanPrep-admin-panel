@@ -22,6 +22,7 @@ import {
 } from "../../services/api-services/auth";
 import toast from "react-hot-toast";
 import SearchBox from "../../components/SearchBox";
+import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal";
 
 const LIMIT = 4;
 const Admin = () => {
@@ -107,20 +108,23 @@ const Admin = () => {
     }
   };
 
-  const deleteAdminAccount = async (adminId) => {
-    if (!adminId) {
+  const handleConfirmDelete = async () => {
+    if (!adminIdToDelete) {
       toast.error("No admin ID to found.");
       return;
     }
     try {
       setShowConfirm(false);
-      const response = await toast.promise(deleteAdminAccountAPI(adminId), {
-        loading: "Deleting admin...",
-        success: (res) => `Admin deleted successfully!`,
-        error: (err) => `${err.message || "Something went wrong."}`,
-      });
+      const response = await toast.promise(
+        deleteAdminAccountAPI(adminIdToDelete),
+        {
+          loading: "Deleting admin...",
+          success: (res) => `Admin deleted successfully!`,
+          error: (err) => `${err.message || "Something went wrong."}`,
+        }
+      );
       if (response?.statusCode === 200) {
-        console.log("Admin delete response:", response);
+        setAdminIdToDelete(null);
         getAdminsList(1, limit);
       }
     } catch (error) {
@@ -158,6 +162,11 @@ const Admin = () => {
     } catch (error) {
       toast.error(error.message || "Something went wrong.");
     }
+  };
+
+  const handleDeleteAdmin = async (admin) => {
+    setShowConfirm(true);
+    setAdminIdToDelete(admin?.id);
   };
 
   return (
@@ -219,7 +228,7 @@ const Admin = () => {
                       handleEditAdmin={handleEditAdmin}
                       onToggle={onHandleStatusChange}
                       handleShowAdmin={handleShowAdmin}
-                      deleteAdminAccount={deleteAdminAccount}
+                      handleDeleteAdmin={handleDeleteAdmin}
                     />
                   );
                 })}
@@ -255,6 +264,16 @@ const Admin = () => {
         initialData={editData}
         isFrom={isFrom}
       />
+
+      <ConfirmationModal
+        isOpen={showConfirm}
+        onClose={() => setShowConfirm(false)}
+        onConfirm={handleConfirmDelete}
+        title={"Are you sure?"}
+        message={
+          "Do you really want to delete this admin? This action cannot be undo."
+        }
+      />
     </>
   );
 };
@@ -268,7 +287,7 @@ const AdminUserRow = React.memo(
     onToggle,
     handleEditAdmin,
     handleShowAdmin,
-    deleteAdminAccount,
+    handleDeleteAdmin,
   }) => {
     const [status, setStatus] = useState(admin?.status); // initial value
 
@@ -309,7 +328,7 @@ const AdminUserRow = React.memo(
             <Button
               className="error"
               color="error"
-              onClick={() => deleteAdminAccount(admin?.id)}
+              onClick={() => handleDeleteAdmin(admin)}
             >
               <MdDelete />
             </Button>

@@ -150,7 +150,7 @@ const PSC = () => {
           <h3 className="hd">PSC List</h3>
 
           <div className="row cardFilters mt-3 d-flex justify-content-between">
-            <div className="col-md-5 d-flex flex-row">
+            <div className="col-md-7 d-flex flex-row">
               <div className="col-md-10">
                 <SearchBox onSubmit={(value) => onSearchValueSubmit(value)} />
               </div>
@@ -158,11 +158,7 @@ const PSC = () => {
             <div className="col-md-3 d-flex flex-column align-items-end">
               <div className="h-50"></div>
               <FormControl size="small" className="align-self-end">
-                <Button
-                  variant="contained"
-                  onClick={handleAddPSC}
-                  className="d-flex justify-content-center align-items-center"
-                >
+                <Button variant="contained" onClick={handleAddPSC}>
                   <IoIosAddCircle size={20} /> &nbsp; Add New PSC
                 </Button>
               </FormControl>
@@ -252,7 +248,12 @@ const PSCRow = React.memo(
         <td>{`${psc?.featured ? "Yes" : "No"}` || psc?.featured}</td>
         <td>{psc?.priority}</td>
         <td>
-          <Image fileId={psc?.image_id} alt={"PSC"} className="psc-image" fallbackImage={FALLBACK_IMAGE_URL} />
+          <Image
+            fileId={psc?.image_id}
+            alt={"PSC"}
+            className="psc-image"
+            fallbackImage={FALLBACK_IMAGE_URL}
+          />
         </td>
         <td>{dayjs(psc?.createdAt).format(DATE_TIME_FORMAT) || "-"}</td>
         <td>

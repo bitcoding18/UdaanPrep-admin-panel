@@ -34,17 +34,19 @@ const StudentFormModal = ({
   handleClose,
   handleSubmit,
   initialData = null,
+  isFrom = "add",
 }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     mobile: "",
     password: "",
-    birthdate: "",
+    birthdate: dayjs().subtract(18, "year"),
     status: true,
   });
 
   const [showPassword, setShowPassword] = useState(false);
+  const isEditable = isFrom !== "show";
 
   useEffect(() => {
     if (initialData) {
@@ -93,6 +95,7 @@ const StudentFormModal = ({
               value={formData.name}
               onChange={handleChange}
               required
+              disabled={!isEditable}
             />
           </div>
 
@@ -106,6 +109,7 @@ const StudentFormModal = ({
               value={formData?.email || ""}
               onChange={handleChange}
               required
+              disabled={!isEditable}
             />
           </div>
 
@@ -119,6 +123,12 @@ const StudentFormModal = ({
               value={formData.phone}
               onChange={handleChange}
               required
+              disabled={!isEditable}
+              slotProps={{
+                htmlInput: {
+                  maxLength: 10,
+                },
+              }}
             />
           </div>
 
@@ -133,6 +143,7 @@ const StudentFormModal = ({
                 value={formData.password}
                 onChange={handleChange}
                 required
+                disabled={!isEditable}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
@@ -157,6 +168,10 @@ const StudentFormModal = ({
                       ? dayjs(formData.birthdate)
                       : dayjs().subtract(18, "year")
                   }
+                  onChange={(e) =>
+                    setFormData({ ...formData, birthdate: e?.format() })
+                  }
+                  disabled={!isEditable}
                 />
               </DemoContainer>
             </LocalizationProvider>

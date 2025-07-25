@@ -63,7 +63,9 @@ const Courses = () => {
 
   const handleEditCourse = (course) => {
     setEditData(course);
-    navigate(`/course/details/${course?._id}`);
+    navigate(`/course/details/${course?._id}`, {
+      state: { data: course, isFrom: "edit" },
+    });
   };
 
   const handleDeleteCourse = async (course) => {
@@ -152,7 +154,7 @@ const Courses = () => {
           <h3 className="hd">Courses List</h3>
 
           <div className="row cardFilters mt-3 d-flex justify-content-between">
-            <div className="col-md-5 d-flex flex-row">
+            <div className="col-md-7 d-flex flex-row">
               <div className="col-md-10">
                 <SearchBox onSubmit={(value) => onSearchValueSubmit(value)} />
               </div>

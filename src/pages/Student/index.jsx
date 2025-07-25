@@ -29,7 +29,6 @@ import SearchBox from "../../components/SearchBox";
 const LIMIT = 4;
 const Student = () => {
   const context = useContext(GlobalContext);
-  const { themeMode } = context;
   const [showModal, setShowModal] = useState(false);
   const [editData, setEditData] = useState(null);
   const [arrStudents, setArrStudents] = useState([]);
@@ -41,6 +40,7 @@ const Student = () => {
   const [totalStudents, setTotalStudents] = useState(0);
   const [studentsDataPerPage, setStudentsDataPerPage] = useState([]);
   const [searchVal, setSearchVal] = useState("");
+  const [isFrom, setIsFrom] = useState("");
 
   useEffect(() => {
     getStudentsList(currentPageNumber, limit);
@@ -63,13 +63,15 @@ const Student = () => {
   };
 
   const handleAddStudent = () => {
+    setIsFrom("add");
     setEditData(null);
     setShowModal(true);
   };
 
   const handleEditStudent = (student) => {
+    setIsFrom("edit");
     setEditData(student);
-    setShowModal(true);
+    setShowModal(true);    
   };
 
   const handleDeleteStudent = async (student) => {
@@ -78,6 +80,8 @@ const Student = () => {
   };
 
   const handleSubmit = async (data) => {
+    console.log('asdfdsf', data);
+    
     const bodyReq = {
       name: data?.name,
       email: data?.email,
@@ -86,26 +90,28 @@ const Student = () => {
       birthdate: data?.birthdate || "",
       status: data?.status ? "active" : "inactive",
     };
-    let response = null;
-    if (editData) {
-      response = await toast.promise(
-        updateStudentDetailsAPI(data?.student_id, bodyReq),
-        {
-          loading: "Updating new student...",
-          success: (res) => `${res?.data?.name} updated successfully!`,
-          error: (err) => `${err?.message || "Something went wrong."}`,
-        }
-      );
-    } else {
-      response = await toast.promise(registerStudentAPI(bodyReq), {
-        loading: "Adding new student...",
-        success: (res) => `${res?.data?.name} added successfully!`,
-        error: (err) => `${err.message || "Something went wrong."}`,
-      });
-    }
-    if (response?.statusCode === 200) {
-      getStudentsList(currentPageNumber, limit);
-    }
+    console.log('asdfasdf', bodyReq);
+    
+    // let response = null;
+    // if (editData) {
+    //   response = await toast.promise(
+    //     updateStudentDetailsAPI(data?.student_id, bodyReq),
+    //     {
+    //       loading: "Updating new student...",
+    //       success: (res) => `${res?.data?.name} updated successfully!`,
+    //       error: (err) => `${err?.message || "Something went wrong."}`,
+    //     }
+    //   );
+    // } else {
+    //   response = await toast.promise(registerStudentAPI(bodyReq), {
+    //     loading: "Adding new student...",
+    //     success: (res) => `${res?.data?.name} added successfully!`,
+    //     error: (err) => `${err.message || "Something went wrong."}`,
+    //   });
+    // }
+    // if (response?.statusCode === 200) {
+    //   getStudentsList(currentPageNumber, limit);
+    // }
   };
 
   const handleConfirmDelete = async () => {
@@ -261,6 +267,7 @@ const Student = () => {
         handleClose={() => setShowModal(false)}
         handleSubmit={handleSubmit}
         initialData={editData}
+        isFrom={isFrom}
       />
 
       <ConfirmationModal

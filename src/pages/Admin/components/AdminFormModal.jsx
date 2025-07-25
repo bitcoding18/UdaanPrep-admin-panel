@@ -39,6 +39,7 @@ const AdminFormModal = ({
   });
 
   const [showPassword, setShowPassword] = useState(false);
+  const isEditable = isFrom !== "show";
 
   useEffect(() => {
     if (initialData) {
@@ -95,6 +96,7 @@ const AdminFormModal = ({
               value={formData.name}
               onChange={handleChange}
               required
+              disabled={!isEditable}
             />
           </div>
 
@@ -107,6 +109,7 @@ const AdminFormModal = ({
               value={formData.email}
               onChange={handleChange}
               required
+              disabled={!isEditable}
             />
           </div>
 
@@ -119,6 +122,12 @@ const AdminFormModal = ({
               value={formData.mobile}
               onChange={handleChange}
               required
+              disabled={!isEditable}
+              slotProps={{
+                htmlInput: {
+                  maxLength: 10,
+                },
+              }}
             />
           </div>
 
@@ -131,6 +140,7 @@ const AdminFormModal = ({
               value={formData.password}
               onChange={handleChange}
               required
+              disabled={!isEditable}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -151,6 +161,7 @@ const AdminFormModal = ({
               fullWidth
               value={formData.role}
               onChange={handleChange}
+              disabled={!isEditable}
             >
               <MenuItem value="super admin">Super Admin</MenuItem>
               <MenuItem value="admin">Admin</MenuItem>
